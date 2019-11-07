@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.wasteofplastic.askyblock.*;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -46,10 +47,7 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import com.wasteofplastic.askyblock.ASkyBlock;
-import com.wasteofplastic.askyblock.Island;
 import com.wasteofplastic.askyblock.Island.SettingsFlag;
-import com.wasteofplastic.askyblock.Settings;
 import com.wasteofplastic.askyblock.Settings.GameType;
 import com.wasteofplastic.askyblock.events.AcidEvent;
 import com.wasteofplastic.askyblock.events.AcidRainEvent;
@@ -132,7 +130,7 @@ public class AcidEffect implements Listener {
             // Only check if they are in a non-dry biome
             Biome biome = playerLoc.getBlock().getBiome();
             if (biome != Biome.DESERT && biome != Biome.DESERT_HILLS
-                    && biome != Biome.SAVANNA && biome != Biome.MESA && biome != Biome.HELL) {
+                    && biome != Biome.SAVANNA && biome != InexorableBiome.BADLANDS.retrieveBiome() && biome != InexorableBiome.NETHER.retrieveBiome()) {
                 if (isSafeFromRain(player)) {
                     // plugin.getLogger().info("DEBUG: not hit by rain");
                     wetPlayers.remove(player);
@@ -294,9 +292,9 @@ public class AcidEffect implements Listener {
         // In liquid
         Material bodyMat = player.getLocation().getBlock().getType();
         Material headMat = player.getLocation().getBlock().getRelative(BlockFace.UP).getType();
-        if (bodyMat.equals(Material.STATIONARY_WATER))
+        if (bodyMat.equals(XMaterial.WATER.parseMaterial()))
             bodyMat = Material.WATER;
-        if (headMat.equals(Material.STATIONARY_WATER))
+        if (headMat.equals(XMaterial.WATER.parseMaterial()))
             headMat = Material.WATER;
         if (bodyMat != Material.WATER && headMat != Material.WATER) {
             if (DEBUG)
@@ -431,7 +429,7 @@ public class AcidEffect implements Listener {
         if (helmet != null) {
             if (helmet.getType() == Material.LEATHER_HELMET)
                 red = red + 0.04;
-            else if (helmet.getType() == Material.GOLD_HELMET)
+            else if (helmet.getType() == XMaterial.GOLDEN_HELMET.parseMaterial())
                 red = red + 0.08;
             else if (helmet.getType() == Material.CHAINMAIL_HELMET)
                 red = red + 0.08;
@@ -443,7 +441,7 @@ public class AcidEffect implements Listener {
         if (boots != null) {
             if (boots.getType() == Material.LEATHER_BOOTS)
                 red = red + 0.04;
-            else if (boots.getType() == Material.GOLD_BOOTS)
+            else if (boots.getType() == XMaterial.GOLDEN_BOOTS.parseMaterial())
                 red = red + 0.04;
             else if (boots.getType() == Material.CHAINMAIL_BOOTS)
                 red = red + 0.04;
@@ -456,7 +454,7 @@ public class AcidEffect implements Listener {
         if (pants != null) {
             if (pants.getType() == Material.LEATHER_LEGGINGS)
                 red = red + 0.08;
-            else if (pants.getType() == Material.GOLD_LEGGINGS)
+            else if (pants.getType() == XMaterial.GOLDEN_LEGGINGS.parseMaterial())
                 red = red + 0.12;
             else if (pants.getType() == Material.CHAINMAIL_LEGGINGS)
                 red = red + 0.16;
@@ -469,7 +467,7 @@ public class AcidEffect implements Listener {
         if (chest != null) {
             if (chest.getType() == Material.LEATHER_CHESTPLATE)
                 red = red + 0.12;
-            else if (chest.getType() == Material.GOLD_CHESTPLATE)
+            else if (chest.getType() == XMaterial.GOLDEN_CHESTPLATE.parseMaterial())
                 red = red + 0.20;
             else if (chest.getType() == Material.CHAINMAIL_CHESTPLATE)
                 red = red + 0.20;

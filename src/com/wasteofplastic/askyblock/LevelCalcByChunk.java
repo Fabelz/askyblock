@@ -14,6 +14,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.ChunkSnapshot;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.material.MaterialData;
@@ -135,13 +136,29 @@ public class LevelCalcByChunk {
                 }
 
                 for (int y = 0; y < island.getCenter().getWorld().getMaxHeight(); y++) {
-                    Material blockType = Material.getMaterial(chunk.getBlockTypeId(x, y, z));
+                    Material blockType = chunk.getBlockType(x, y, z);
                     boolean belowSeaLevel = Settings.seaHeight > 0 && y <= Settings.seaHeight;
                     // Air is free
                     if (!blockType.equals(Material.AIR)) {
                         checkBlock(blockType, chunk.getBlockData(x, y, z), belowSeaLevel);
                     }
                 }
+            }
+        }
+    }
+
+    private void checkBlock(Material type, BlockData blockData, boolean belowSeaLevel) {
+        // Adding this in as a band-aid patch for compatibility for 1.13 and above.
+        @SuppressWarnings("deprecation")
+        MaterialData md = new MaterialData(type);
+        int count = limitCount(md);
+        if (count != 0) {
+            if (belowSeaLevel) {
+                result.underWaterBlockCount += count;
+                result.uwCount.add(md);
+            } else {
+                result.rawBlockCount += count;
+                result.mdCount.add(md);
             }
         }
     }

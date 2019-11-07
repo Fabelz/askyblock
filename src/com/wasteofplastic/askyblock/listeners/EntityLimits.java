@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import com.wasteofplastic.askyblock.XMaterial;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -212,9 +213,9 @@ public class EntityLimits implements Listener {
                     } else if (entity instanceof Player && e.getSpawnReason() != SpawnReason.SPAWNER && e.getSpawnReason() != SpawnReason.DISPENSE_EGG) {
                         for (ItemStack itemInHand: Util.getPlayerInHandItems((Player) entity)) {
                             if (itemInHand != null) {
-                                Material type = itemInHand.getType();
-                                if (type == Material.EGG || type == Material.MONSTER_EGG || type == Material.WHEAT || type == Material.CARROT_ITEM
-                                        || type == Material.SEEDS) {
+                                XMaterial type = XMaterial.matchXMaterial(itemInHand.getType().name());
+                                if (type == XMaterial.EGG || (type != null && type.isMonsterEgg()) || type == XMaterial.WHEAT || type == XMaterial.CARROT
+                                        || type == XMaterial.WHEAT_SEEDS) {
                                     if (DEBUG2)
                                         plugin.getLogger().info("Player used egg or did breeding ");
                                     if (!culprits.contains((Player)entity)) {
@@ -248,9 +249,9 @@ public class EntityLimits implements Listener {
                             }
                         } else if (entity instanceof Player && e.getSpawnReason() != SpawnReason.SPAWNER && e.getSpawnReason() != SpawnReason.DISPENSE_EGG) {
                             for (ItemStack itemInHand : Util.getPlayerInHandItems(((Player) entity))) {
-                                Material type = itemInHand.getType();
-                                if (type == Material.EGG || type == Material.MONSTER_EGG || type == Material.WHEAT || type == Material.CARROT_ITEM
-                                        || type == Material.SEEDS) {
+                                XMaterial type = XMaterial.matchXMaterial(itemInHand.getType().name());
+                                if (type == XMaterial.EGG || (type != null && type.isMonsterEgg()) || type == XMaterial.WHEAT || type == XMaterial.CARROT
+                                        || type == XMaterial.WHEAT_SEEDS) {
                                     if (!culprits.contains((Player)entity)) {
                                         culprits.add(((Player) entity));
                                     }
@@ -357,10 +358,10 @@ public class EntityLimits implements Listener {
                 String type = e.getBlock().getType().toString();
                 if (!e.getBlock().getState().getClass().getName().endsWith("CraftBlockState")
                         // Not all blocks have that type of class, so we have to do some explicit checking...
-                        || e.getBlock().getType().equals(Material.REDSTONE_COMPARATOR_OFF)
+                        || e.getBlock().getType().equals(XMaterial.COMPARATOR.parseMaterial())
                         || type.endsWith("BANNER") // Avoids V1.7 issues
                         || e.getBlock().getType().equals(Material.ENDER_CHEST)
-                        || e.getBlock().getType().equals(Material.ENCHANTMENT_TABLE)
+                        || e.getBlock().getType().equals(XMaterial.ENCHANTING_TABLE.parseMaterial())
                         || e.getBlock().getType().equals(Material.DAYLIGHT_DETECTOR)
                         || e.getBlock().getType().equals(Material.FLOWER_POT)){
                     // tile entity placed
@@ -423,10 +424,10 @@ public class EntityLimits implements Listener {
                 String type = e.getBlock().getType().toString();
                 if (!e.getBlock().getState().getClass().getName().endsWith("CraftBlockState")
                         // Not all blocks have that type of class, so we have to do some explicit checking...
-                        || e.getBlock().getType().equals(Material.REDSTONE_COMPARATOR_OFF)
+                        || e.getBlock().getType().equals(XMaterial.COMPARATOR.parseMaterial())
                         || type.endsWith("BANNER") // Avoids V1.7 issues
                         || e.getBlock().getType().equals(Material.ENDER_CHEST)
-                        || e.getBlock().getType().equals(Material.ENCHANTMENT_TABLE)
+                        || e.getBlock().getType().equals(XMaterial.ENCHANTING_TABLE.parseMaterial())
                         || e.getBlock().getType().equals(Material.DAYLIGHT_DETECTOR)
                         || e.getBlock().getType().equals(Material.FLOWER_POT)){
                     // tile entity placed
@@ -519,8 +520,12 @@ public class EntityLimits implements Listener {
         Iterator<BlockState> it = e.getBlocks().iterator();
         while (it.hasNext()) {
             BlockState b = it.next();
-            if (b.getType() == Material.LOG || b.getType() == Material.LOG_2
-                    || b.getType() == Material.LEAVES || b.getType() == Material.LEAVES_2) {
+            if (b.getType() == XMaterial.OAK_WOOD.parseMaterial() || b.getType() == XMaterial.SPRUCE_WOOD.parseMaterial() ||
+                b.getType() == XMaterial.BIRCH_WOOD.parseMaterial() || b.getType() == XMaterial.JUNGLE_WOOD.parseMaterial() ||
+                b.getType() == XMaterial.ACACIA_WOOD.parseMaterial() || b.getType() == XMaterial.DARK_OAK_WOOD.parseMaterial() ||
+                b.getType() == XMaterial.OAK_LEAVES.parseMaterial() || b.getType() == XMaterial.SPRUCE_LEAVES.parseMaterial() ||
+                b.getType() == XMaterial.BIRCH_LEAVES.parseMaterial() || b.getType() == XMaterial.JUNGLE_LEAVES.parseMaterial() ||
+                b.getType() == XMaterial.ACACIA_LEAVES.parseMaterial() || b.getType() == XMaterial.DARK_OAK_LEAVES.parseMaterial()) {
                 if (!island.onIsland(b.getLocation())) {
                     it.remove();
                 }

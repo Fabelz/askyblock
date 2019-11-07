@@ -20,6 +20,7 @@ package com.wasteofplastic.askyblock.schematics;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.wasteofplastic.askyblock.XMaterial;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
@@ -30,7 +31,7 @@ import com.wasteofplastic.org.jnbt.StringTag;
 import com.wasteofplastic.org.jnbt.Tag;
 
 /**
- * This class describes pots and is used in schematic importing
+ * This class describes pots and is used in schematic importing pre-1.13.
  * 
  * @author SpyL1nk
  * 
@@ -44,14 +45,17 @@ public class PotBlock {
     static {
         potItemList = new HashMap<>();
         potItemList.put("", Material.AIR);
-        potItemList.put("minecraft:red_flower", Material.RED_ROSE);
-        potItemList.put("minecraft:yellow_flower", Material.YELLOW_FLOWER);
-        potItemList.put("minecraft:sapling", Material.SAPLING);
+        potItemList.put("minecraft:poppy", XMaterial.POPPY.parseMaterial());
+        potItemList.put("minecraft:red_flower", XMaterial.POPPY.parseMaterial());
+        potItemList.put("minecraft:dandelion", XMaterial.DANDELION.parseMaterial());
+        potItemList.put("minecraft:yellow_flower", XMaterial.DANDELION.parseMaterial());
+        potItemList.put("minecraft:oak_sapling", XMaterial.OAK_SAPLING.parseMaterial());
+        potItemList.put("minecraft:sapling", XMaterial.OAK_SAPLING.parseMaterial());
         potItemList.put("minecraft:red_mushroom", Material.RED_MUSHROOM);
         potItemList.put("minecraft:brown_mushroom", Material.BROWN_MUSHROOM);
         potItemList.put("minecraft:cactus", Material.CACTUS);
-        potItemList.put("minecraft:deadbush", Material.LONG_GRASS);
-        potItemList.put("minecraft:tallgrass", Material.LONG_GRASS);
+        potItemList.put("minecraft:deadbush", Material.valueOf("LONG_GRASS"));
+        potItemList.put("minecraft:tallgrass", Material.valueOf("LONG_GRASS"));
     }
 
     public boolean set(NMSAbstraction nms, Block block) {
@@ -72,7 +76,7 @@ public class PotBlock {
                 if (tileData.get("Item") instanceof IntTag) {
                     // Item is a number, not a material
                     int id = ((IntTag) tileData.get("Item")).getValue();
-                    potItem = Material.getMaterial(id);
+                    potItem = XMaterial.matchXMaterial(id, (byte) 0).parseMaterial();
                     // Check it's a viable pot item
                     if (!potItemList.containsValue(potItem)) {
                         // No, so reset to AIR
@@ -92,27 +96,27 @@ public class PotBlock {
                 if(tileData.containsKey("Data")){
                     int dataTag = ((IntTag) tileData.get("Data")).getValue();
                     // We should check data for each type of potItem 
-                    if(potItem == Material.RED_ROSE){
+                    if(potItem == XMaterial.POPPY.parseMaterial()){
                         if(dataTag >= 0 && dataTag <= 8){
                             potItemData = dataTag;
                         } else {
                             // Prevent hacks
                             potItemData = 0;
                         }
-                    } else if(potItem == Material.YELLOW_FLOWER ||
+                    } else if(potItem == XMaterial.DANDELION.parseMaterial() ||
                             potItem == Material.RED_MUSHROOM ||
                             potItem == Material.BROWN_MUSHROOM ||
                             potItem == Material.CACTUS){
                         // Set to 0 anyway
                         potItemData = 0;
-                    } else if(potItem == Material.SAPLING){
+                    } else if(potItem == Material.OAK_SAPLING){
                         if(dataTag >= 0 && dataTag <= 4){
                             potItemData = dataTag;
                         } else {
                             // Prevent hacks
                             potItemData = 0;
                         }
-                    } else if(potItem == Material.LONG_GRASS){
+                    } else if(potItem == Material.valueOf("LONG_GRASS")){
                         // Only 0 or 2
                         if(dataTag == 0 || dataTag == 2){
                             potItemData = dataTag;

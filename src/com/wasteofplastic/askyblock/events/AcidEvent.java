@@ -28,7 +28,6 @@ public class AcidEvent extends Event implements Cancellable {
      * @param totalDamage
      * @param protection
      * @param potionEffects
-     * @param cancelled
      */
     public AcidEvent(Player player, double totalDamage, double protection, List<PotionEffectType> potionEffects) {
         this.player = player;

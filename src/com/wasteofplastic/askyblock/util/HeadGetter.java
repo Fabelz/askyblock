@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.wasteofplastic.askyblock.XMaterial;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -38,7 +39,7 @@ public class HeadGetter {
                 if (it.hasNext()) {
                     Entry<UUID,String> en = it.next();
                     //Bukkit.getLogger().info("DEBUG: getting " + en.getValue());
-                    ItemStack playerSkull = new ItemStack(Material.SKULL_ITEM, 1, (short) 3);
+                    ItemStack playerSkull = XMaterial.PLAYER_HEAD.parseItem();
                     SkullMeta meta = (SkullMeta) playerSkull.getItemMeta();
                     meta.setOwner(en.getValue());
                     meta.setDisplayName(ChatColor.WHITE + en.getValue());

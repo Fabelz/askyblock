@@ -125,7 +125,7 @@ public class GridManager {
                             }
                             String spawnSettings = islandYaml.getString("spawn.settings");
                             // Make the spawn
-                            Island newSpawn = new Island(plugin, spawnLoc.getBlockX(), spawnLoc.getBlockZ());
+                            Island newSpawn = (plugin.isOnePointThirteen()) ? new Island1_13(plugin, spawnLoc.getBlockX(), spawnLoc.getBlockZ()) : new Island(plugin, spawnLoc.getBlockX(), spawnLoc.getBlockZ());
                             newSpawn.setSpawn(true);
                             if (spawnPoint != null)
                                 newSpawn.setSpawnPoint(spawnPoint);
@@ -622,7 +622,7 @@ public class GridManager {
         }
         // plugin.getLogger().info("DEBUG: adding island to grid at " + x + ", "
         // + z + " for " + owner.toString());
-        Island newIsland = new Island(plugin, x, z, owner);
+        Island newIsland = (plugin.isOnePointThirteen()) ? new Island1_13(plugin, x, z, owner) : new Island(plugin, x, z, owner);
         // if (newIsland != null) {
         // plugin.getLogger().info("DEBUG: new island is good");
         // }
@@ -639,7 +639,7 @@ public class GridManager {
      */
     public Island addIsland(String islandSerialized, List<String> settingsKey) {
         // plugin.getLogger().info("DEBUG: adding island " + islandSerialized);
-        Island newIsland = new Island(plugin, islandSerialized, settingsKey);
+        Island newIsland = (plugin.isOnePointThirteen()) ? new Island1_13(plugin, islandSerialized, settingsKey) : new Island(plugin, islandSerialized, settingsKey);
         addToGrids(newIsland);
         return newIsland;
     }
@@ -955,8 +955,8 @@ public class GridManager {
         //Bukkit.getLogger().info("DEBUG: space 1 = " + space1.getType());
         //Bukkit.getLogger().info("DEBUG: space 2 = " + space2.getType());
         // Portals are not "safe"
-        if (space1.getType() == Material.PORTAL || ground.getType() == Material.PORTAL || space2.getType() == Material.PORTAL
-                || space1.getType() == Material.ENDER_PORTAL || ground.getType() == Material.ENDER_PORTAL || space2.getType() == Material.ENDER_PORTAL) {
+        if (space1.getType() == XMaterial.NETHER_PORTAL.parseMaterial() || ground.getType() == XMaterial.NETHER_PORTAL.parseMaterial() || space2.getType() == XMaterial.NETHER_PORTAL.parseMaterial()
+                || space1.getType() == XMaterial.END_PORTAL.parseMaterial() || ground.getType() == XMaterial.END_PORTAL.parseMaterial() || space2.getType() == XMaterial.END_PORTAL.parseMaterial()) {
             return false;
         }
         // If ground is AIR, then this is either not good, or they are on slab,
@@ -968,9 +968,9 @@ public class GridManager {
         // In ASkyBlock, liquid may be unsafe
         if (ground.isLiquid() || space1.isLiquid() || space2.isLiquid()) {
             if (Settings.acidDamage > 0D
-                    || ground.getType().equals(Material.STATIONARY_LAVA) || ground.getType().equals(Material.LAVA)
-                    || space1.getType().equals(Material.STATIONARY_LAVA) || space1.getType().equals(Material.LAVA)
-                    || space2.getType().equals(Material.STATIONARY_LAVA) || space2.getType().equals(Material.LAVA)) {
+                    || ground.getType().equals(XMaterial.LAVA.parseMaterial()) || ground.getType().equals(Material.LAVA)
+                    || space1.getType().equals(XMaterial.LAVA.parseMaterial()) || space1.getType().equals(Material.LAVA)
+                    || space2.getType().equals(XMaterial.LAVA.parseMaterial()) || space2.getType().equals(Material.LAVA)) {
                 return false;
             }
         }
@@ -988,8 +988,8 @@ public class GridManager {
             }
             //Bukkit.getLogger().info("DEBUG: trapdoor closed");
         }
-        if (ground.getType().equals(Material.CACTUS) || ground.getType().equals(Material.BOAT) || ground.getType().equals(Material.FENCE)
-                || ground.getType().equals(Material.NETHER_FENCE) || ground.getType().equals(Material.SIGN_POST) || ground.getType().equals(Material.WALL_SIGN)) {
+        if (ground.getType().equals(Material.CACTUS) || ground.getType().equals(XMaterial.OAK_BOAT.parseMaterial()) || ground.getType().equals(XMaterial.OAK_FENCE.parseMaterial())
+                || ground.getType().equals(XMaterial.NETHER_BRICK_FENCE.parseMaterial()) || ground.getType().equals(XMaterial.OAK_WALL_SIGN.parseMaterial()) || ground.getType().equals(Material.WALL_SIGN)) {
             // Bukkit.getLogger().info("DEBUG: cactus");
             return false;
         }
@@ -998,10 +998,10 @@ public class GridManager {
         // check
         // a few other items
         // isSolid thinks that PLATEs and SIGNS are solid, but they are not
-        if (space1.getType().isSolid() && !space1.getType().equals(Material.SIGN_POST) && !space1.getType().equals(Material.WALL_SIGN)) {
+        if (space1.getType().isSolid() && !space1.getType().equals(XMaterial.OAK_WALL_SIGN.parseMaterial()) && !space1.getType().equals(Material.WALL_SIGN)) {
             return false;
         }
-        return !space2.getType().isSolid() || space2.getType().equals(Material.SIGN_POST) || space2
+        return !space2.getType().isSolid() || space2.getType().equals(XMaterial.OAK_WALL_SIGN.parseMaterial()) || space2
                 .getType().equals(Material.WALL_SIGN);
     }
 
@@ -1213,7 +1213,7 @@ public class GridManager {
                 player.leaveVehicle();
                 // Remove the boat so they don't lie around everywhere
                 boat.remove();
-                player.getInventory().addItem(new ItemStack(Material.BOAT, 1));
+                player.getInventory().addItem(new ItemStack(XMaterial.OAK_BOAT.parseMaterial(), 1));
                 player.updateInventory();
             }
         }

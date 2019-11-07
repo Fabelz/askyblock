@@ -33,6 +33,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.UUID;
 
+import com.wasteofplastic.askyblock.*;
 import com.wasteofplastic.askyblock.events.*;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
@@ -66,16 +67,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
-import com.wasteofplastic.askyblock.ASLocale;
-import com.wasteofplastic.askyblock.ASkyBlock;
-import com.wasteofplastic.askyblock.CoopPlay;
-import com.wasteofplastic.askyblock.DeleteIslandChunk;
-import com.wasteofplastic.askyblock.GridManager;
-import com.wasteofplastic.askyblock.Island;
 import com.wasteofplastic.askyblock.Island.SettingsFlag;
-import com.wasteofplastic.askyblock.LevelCalcByChunk;
-import com.wasteofplastic.askyblock.Settings;
-import com.wasteofplastic.askyblock.TopTen;
 import com.wasteofplastic.askyblock.Island.SettingsFlag;
 import com.wasteofplastic.askyblock.events.IslandJoinEvent;
 import com.wasteofplastic.askyblock.events.IslandLeaveEvent;
@@ -229,7 +221,7 @@ public class IslandCmd implements CommandExecutor, TabCompleter {
             schematics.get("nether").setName("NetherBlock Island");
             schematics.get("nether").setDescription("Nether Island");
             schematics.get("nether").setPartnerName("default");
-            schematics.get("nether").setBiome(Biome.HELL);
+            schematics.get("nether").setBiome(InexorableBiome.NETHER.retrieveBiome());
             schematics.get("nether").setIcon(Material.NETHERRACK);
             schematics.get("nether").setVisible(false);
             schematics.get("nether").setPasteEntities(true);
@@ -285,7 +277,7 @@ public class IslandCmd implements CommandExecutor, TabCompleter {
                             // Support damage values
                             String[] split = iconString.split(":");
                             if (StringUtils.isNumeric(split[0])) {
-                                icon = Material.getMaterial(Integer.parseInt(split[0]));
+                                icon = XMaterial.matchXMaterial(Integer.parseInt(split[0]), (byte) 0).parseMaterial();
                                 if (icon == null) {
                                     icon = Material.MAP;
                                     plugin.getLogger().severe("Schematic's icon could not be found. Try using quotes like '17:2'");
@@ -351,7 +343,7 @@ public class IslandCmd implements CommandExecutor, TabCompleter {
                         // Visible in GUI or not
                         newSchem.setVisible(schemSection.getBoolean("schematics." + key + ".show",true));
                         // Partner schematic
-                        if (biome != null && biome.equals(Biome.HELL)) {
+                        if (biome != null && biome.equals(InexorableBiome.NETHER.retrieveBiome())) {
                             // Default for nether biomes is the default overworld island
                             newSchem.setPartnerName(schemSection.getString("schematics." + key + ".partnerSchematic","default"));
                         } else {
@@ -417,7 +409,7 @@ public class IslandCmd implements CommandExecutor, TabCompleter {
                                     } else {
                                         Material mat;
                                         if (StringUtils.isNumeric(amountdata[0])) {
-                                            mat = Material.getMaterial(Integer.parseInt(amountdata[0]));
+                                            mat = XMaterial.matchXMaterial(Integer.parseInt(amountdata[0]), (byte) 0).parseMaterial();
                                         } else {
                                             mat = Material.getMaterial(amountdata[0].toUpperCase());
                                         }
@@ -452,7 +444,7 @@ public class IslandCmd implements CommandExecutor, TabCompleter {
                             try {
                                 Material playerSpawnBlock;
                                 if (StringUtils.isNumeric(spawnBlock)) {
-                                    playerSpawnBlock = Material.getMaterial(Integer.parseInt(spawnBlock));
+                                    playerSpawnBlock = XMaterial.matchXMaterial(Integer.parseInt(spawnBlock), (byte) 0).parseMaterial();
                                 } else {
                                     playerSpawnBlock = Material.valueOf(spawnBlock.toUpperCase());
                                 }
@@ -637,7 +629,7 @@ public class IslandCmd implements CommandExecutor, TabCompleter {
                 // Only add if it's visible
                 if (schematic.isVisible()) {
                     // Check if it's a nether island, but the nether is not enables
-                    if (schematic.getBiome().equals(Biome.HELL)) {
+                    if (schematic.getBiome().equals(InexorableBiome.NETHER.retrieveBiome())) {
                         if (Settings.createNether && Settings.newNether && ASkyBlock.getNetherWorld() != null) {
                             result.add(schematic);
                         }
@@ -2343,7 +2335,7 @@ public class IslandCmd implements CommandExecutor, TabCompleter {
                                         }
                                         // Find out which direction the warp is facing
                                         Block b = warpSpot.getBlock();
-                                        if (b.getType().equals(Material.SIGN_POST) || b.getType().equals(Material.WALL_SIGN)) {
+                                        if (b.getType().equals(XMaterial.OAK_WALL_SIGN.parseMaterial()) || b.getType().equals(Material.WALL_SIGN)) {
                                             Sign sign = (Sign) b.getState();
                                             org.bukkit.material.Sign s = (org.bukkit.material.Sign) sign.getData();
                                             BlockFace directionFacing = s.getFacing();
@@ -2366,7 +2358,7 @@ public class IslandCmd implements CommandExecutor, TabCompleter {
                                         if (!(GridManager.isSafeLocation(warpSpot))) {
                                             Util.sendMessage(player, ChatColor.RED + plugin.myLocale(player.getUniqueId()).warpserrorNotSafe);
                                             // WALL_SIGN's will always be unsafe if the place in front is obscured.
-                                            if (b.getType().equals(Material.SIGN_POST)) {
+                                            if (b.getType().equals(XMaterial.OAK_WALL_SIGN.parseMaterial())) {
                                                 plugin.getLogger().warning(
                                                         "Unsafe warp found at " + warpSpot.toString() + " owned by " + plugin.getPlayers().getName(foundWarp));
 

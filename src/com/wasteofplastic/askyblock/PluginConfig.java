@@ -176,7 +176,7 @@ public class PluginConfig {
                                 try {
                                     tempChest[i] = new SpawnEgg1_9(type).toItemStack(Integer.parseInt(amountdata[2]));
                                 } catch (Exception ex) {
-                                    tempChest[i] = new ItemStack(Material.MONSTER_EGG);
+                                    tempChest[i] = new ItemStack(Material.AIR); // Setting it to be air because this should never happen anyway.
                                     plugin.getLogger().severe("Monster eggs not supported with this server version.");
                                 }
                             }

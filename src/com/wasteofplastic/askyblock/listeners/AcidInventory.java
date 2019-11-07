@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.wasteofplastic.askyblock.XMaterial;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -244,7 +245,7 @@ public class AcidInventory implements Listener {
             break;
         }
         // plugin.getLogger().info(lastBlock.getType().toString());
-        if (lastBlock.getType().equals(Material.WATER) || lastBlock.getType().equals(Material.STATIONARY_WATER)
+        if (lastBlock.getType().equals(Material.WATER) || lastBlock.getType().equals(XMaterial.WATER.parseMaterial())
                 || lastBlock.getType().equals(Material.CAULDRON)) {
             // They *may* have filled a bottle with water
             // Check inventory for POTIONS in a tick

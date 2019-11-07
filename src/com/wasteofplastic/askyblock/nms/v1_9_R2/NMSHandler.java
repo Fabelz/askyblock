@@ -191,7 +191,7 @@ public class NMSHandler implements NMSAbstraction {
      */
     @SuppressWarnings("deprecation")
     public ItemStack getSpawnEgg(EntityType type, int amount) {
-        ItemStack item = new ItemStack(Material.MONSTER_EGG, amount);
+        ItemStack item = new ItemStack(Material.valueOf("MONSTER_EGG"), amount);
         net.minecraft.server.v1_9_R2.ItemStack stack = CraftItemStack.asNMSCopy(item);
         NBTTagCompound tagCompound = stack.getTag();
         if(tagCompound == null){

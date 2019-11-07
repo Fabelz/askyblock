@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import com.wasteofplastic.askyblock.XMaterial;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -76,13 +77,13 @@ public class BiomesPanel implements Listener {
                     Material material = null;
                     try {
                         if (StringUtils.isNumeric(icon)) {
-                            material = Material.getMaterial(Integer.parseInt(icon));
+                            material = XMaterial.matchXMaterial(Integer.parseInt(icon), (byte) 0).parseMaterial();
                         } else {
                             material = Material.valueOf(icon.toUpperCase());
                         }
                     } catch (Exception e) {
                         plugin.getLogger().warning("Error parsing biome icon value " + icon + ". Using default SAPLING.");
-                        material = Material.SAPLING;
+                        material = XMaterial.OAK_SAPLING.parseMaterial();
                     }
                     // Get cost
                     double cost = plugin.getConfig().getDouble("biomes." + biomeName + ".cost", Settings.biomeCost);

@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import com.wasteofplastic.askyblock.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -68,48 +69,48 @@ public class SettingsPanel implements Listener {
         lookup.put(Material.ANVIL, SettingsFlag.ANVIL);
         lookup.put(Material.ARROW, SettingsFlag.PVP);
         lookup.put(Material.BEACON, SettingsFlag.BEACON);
-        lookup.put(Material.BED, SettingsFlag.BED);
-        lookup.put(Material.BREWING_STAND_ITEM, SettingsFlag.BREWING);
+        lookup.put(XMaterial.RED_BED.parseMaterial(), SettingsFlag.BED);
+        lookup.put(XMaterial.BREWING_STAND.parseMaterial(), SettingsFlag.BREWING);
         lookup.put(Material.BUCKET, SettingsFlag.BUCKET);
-        lookup.put(Material.CARROT_ITEM, SettingsFlag.BREEDING);
+        lookup.put(XMaterial.CARROT.parseMaterial(), SettingsFlag.BREEDING);
         lookup.put(Material.CHEST, SettingsFlag.CHEST);
-        lookup.put(Material.DIAMOND_BARDING, SettingsFlag.HORSE_RIDING);
+        lookup.put(XMaterial.DIAMOND_HORSE_ARMOR.parseMaterial(), SettingsFlag.HORSE_RIDING);
         lookup.put(Material.DIAMOND, SettingsFlag.VISITOR_ITEM_PICKUP);    
         lookup.put(Material.DIRT, SettingsFlag.PLACE_BLOCKS);
         lookup.put(Material.EGG, SettingsFlag.EGGS);
         lookup.put(Material.EMERALD, SettingsFlag.VILLAGER_TRADING);
-        lookup.put(Material.ENCHANTMENT_TABLE, SettingsFlag.ENCHANTING);
+        lookup.put(XMaterial.ENCHANTING_TABLE.parseMaterial(), SettingsFlag.ENCHANTING);
         lookup.put(Material.ENDER_PEARL, SettingsFlag.ENDER_PEARL);
-        lookup.put(Material.FENCE_GATE, SettingsFlag.GATE);
+        lookup.put(XMaterial.OAK_FENCE_GATE.parseMaterial(), SettingsFlag.GATE);
         lookup.put(Material.FLINT_AND_STEEL, SettingsFlag.FIRE);
         lookup.put(Material.FURNACE, SettingsFlag.FURNACE);
-        lookup.put(Material.GOLD_BARDING, SettingsFlag.HORSE_INVENTORY);
+        lookup.put(XMaterial.GOLDEN_HORSE_ARMOR.parseMaterial(), SettingsFlag.HORSE_INVENTORY);
         lookup.put(Material.GOLD_INGOT, SettingsFlag.VISITOR_ITEM_DROP);
-        lookup.put(Material.GOLD_PLATE, SettingsFlag.PRESSURE_PLATE);
+        lookup.put(XMaterial.LIGHT_WEIGHTED_PRESSURE_PLATE.parseMaterial(), SettingsFlag.PRESSURE_PLATE);
         lookup.put(Material.ICE, SettingsFlag.FIRE_EXTINGUISH);
         lookup.put(Material.IRON_SWORD, SettingsFlag.HURT_MONSTERS);
         lookup.put(Material.JUKEBOX, SettingsFlag.MUSIC);
         lookup.put(Material.LAVA_BUCKET, SettingsFlag.COLLECT_LAVA);
-        lookup.put(Material.LEASH, SettingsFlag.LEASH);
+        lookup.put(XMaterial.LEAD.parseMaterial(), SettingsFlag.LEASH);
         lookup.put(Material.LEVER, SettingsFlag.LEVER_BUTTON);
         lookup.put(Material.MILK_BUCKET, SettingsFlag.MILKING);
-        lookup.put(Material.MOB_SPAWNER, SettingsFlag.MONSTER_SPAWN);
-        lookup.put(Material.MONSTER_EGG, SettingsFlag.SPAWN_EGGS);
+        lookup.put(XMaterial.SPAWNER.parseMaterial(), SettingsFlag.MONSTER_SPAWN);
+        lookup.put(XMaterial.COW_SPAWN_EGG.parseMaterial(), SettingsFlag.SPAWN_EGGS);
         lookup.put(Material.NETHERRACK, SettingsFlag.NETHER_PVP);
         lookup.put(Material.OBSIDIAN, SettingsFlag.PORTAL);
-        lookup.put(Material.POTATO_ITEM, SettingsFlag.MOB_SPAWN);
+        lookup.put(XMaterial.POTATO.parseMaterial(), SettingsFlag.MOB_SPAWN);
         lookup.put(Material.POTION, SettingsFlag.ACID_DAMAGE);
-        lookup.put(Material.REDSTONE_COMPARATOR, SettingsFlag.REDSTONE);
+        lookup.put(XMaterial.COMPARATOR.parseMaterial(), SettingsFlag.REDSTONE);
         lookup.put(Material.SHEARS, SettingsFlag.SHEARING);
-        lookup.put(Material.SIGN, SettingsFlag.ENTER_EXIT_MESSAGES);
+        lookup.put(XMaterial.OAK_SIGN.parseMaterial(), SettingsFlag.ENTER_EXIT_MESSAGES);
         lookup.put(Material.STONE, SettingsFlag.BREAK_BLOCKS);
         lookup.put(Material.TNT, SettingsFlag.CREEPER_PAIN);
         lookup.put(Material.TORCH, SettingsFlag.FIRE_SPREAD);
         lookup.put(Material.WATER_BUCKET, SettingsFlag.COLLECT_WATER);
         lookup.put(Material.WHEAT, SettingsFlag.CROP_TRAMPLE);
-        lookup.put(Material.WOOD_DOOR, SettingsFlag.DOOR);
-        lookup.put(Material.WOOD_SWORD, SettingsFlag.HURT_MOBS);
-        lookup.put(Material.WORKBENCH, SettingsFlag.CRAFTING);
+        lookup.put(XMaterial.OAK_DOOR.parseMaterial(), SettingsFlag.DOOR);
+        lookup.put(XMaterial.WOODEN_SWORD.parseMaterial(), SettingsFlag.HURT_MOBS);
+        lookup.put(XMaterial.CRAFTING_TABLE.parseMaterial(), SettingsFlag.CRAFTING);
     }
 
     public SettingsPanel(ASkyBlock plugin) {
@@ -143,9 +144,9 @@ public class SettingsPanel implements Listener {
             }
             // System settings that are visible to users
             ip.add(new IPItem(Settings.allowChestDamage, Material.CHEST, plugin.myLocale(uuid).igsChestDamage, uuid));
-            ip.add(new IPItem(Settings.allowCreeperDamage, Material.SKULL_ITEM, 4, plugin.myLocale(uuid).igsCreeperDamage, uuid));
-            ip.add(new IPItem(Settings.allowCreeperGriefing, Material.SKULL_ITEM, 4, plugin.myLocale(uuid).igsCreeperGriefing, uuid));
-            ip.add(new IPItem(!Settings.restrictWither, Material.SKULL_ITEM, 1, plugin.myLocale(uuid).igsWitherDamage, uuid));
+            ip.add(new IPItem(Settings.allowCreeperDamage, XMaterial.SKELETON_SKULL.parseMaterial(), 4, plugin.myLocale(uuid).igsCreeperDamage, uuid));
+            ip.add(new IPItem(Settings.allowCreeperGriefing, XMaterial.CREEPER_HEAD.parseMaterial(), 4, plugin.myLocale(uuid).igsCreeperGriefing, uuid));
+            ip.add(new IPItem(!Settings.restrictWither, XMaterial.WITHER_SKELETON_SKULL.parseMaterial(), 1, plugin.myLocale(uuid).igsWitherDamage, uuid));
             ip.add(new IPItem(Settings.allowTNTDamage, Material.TNT, plugin.myLocale(uuid).igsTNT, uuid));
             ip.add(new IPItem(Settings.allowVisitorKeepInvOnDeath, Material.IRON_CHESTPLATE, plugin.myLocale(uuid).igsVisitorKeep, uuid));
         } else if (island.isSpawn()) {
@@ -344,8 +345,10 @@ public class SettingsPanel implements Listener {
                                 }
                                 if (plugin.getServer().getVersion().contains("(MC: 1.8") || plugin.getServer().getVersion().contains("(MC: 1.7")) {
                                     p.getWorld().playSound(p.getLocation(), Sound.valueOf("FIREWORK_TWINKLE"), 1F, 1F);
+                                } else if (!plugin.isOnePointThirteen()) {
+                                    p.getWorld().playSound(p.getLocation(), Sound.valueOf("Sound.ENTITY_FIREWORK_TWINKLE"), 1F, 1F);
                                 } else {
-                                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_FIREWORK_TWINKLE, 1F, 1F);
+                                    p.getWorld().playSound(p.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_TWINKLE, 1F, 1F);
                                 }
 
                             }

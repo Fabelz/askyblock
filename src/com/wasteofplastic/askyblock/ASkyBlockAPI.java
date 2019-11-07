@@ -449,7 +449,7 @@ public class ASkyBlockAPI {
     public Island getIslandOwnedBy(UUID playerUUID) {
         Island island = plugin.getGrid().getIsland(playerUUID);
         if (island != null) {
-            return new Island(island);
+            return (plugin.isOnePointThirteen()) ? new Island1_13(island) : new Island(island);
         }
         return null;
     }
@@ -462,7 +462,7 @@ public class ASkyBlockAPI {
     public Island getIslandAt(Location location) {
         Island island = plugin.getGrid().getIslandAt(location);
         if (island != null) {
-            return new Island(island);
+            return (plugin.isOnePointThirteen()) ? new Island1_13(island) : new Island(island);
         }
         return null;
     }

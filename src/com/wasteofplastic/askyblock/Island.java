@@ -887,20 +887,20 @@ public class Island {
                     if (onIsland(holder.getLocation())) {
                         if (holder.getType() == material) {
                             result++;
-                        } else if (material.equals(Material.REDSTONE_COMPARATOR_OFF)) {
-                            if (holder.getType().equals(Material.REDSTONE_COMPARATOR_ON)) {
+                        } else if (material.name().equals("REDSTONE_COMPARATOR_OFF")) {
+                            if (holder.getType().name().equals("REDSTONE_COMPARATOR_ON")) {
                                 result++;
                             }
-                        } else if (material.equals(Material.FURNACE)) {
-                            if (holder.getType().equals(Material.BURNING_FURNACE)) {
+                        } else if (material.name().equals("FURNACE")) {
+                            if (holder.getType().name().equals("BURNING_FURNACE")) {
                                 result++;
                             }
                         } else if (material.toString().endsWith("BANNER")) {
                             if (holder.getType().toString().endsWith("BANNER")) {
                                 result++;
                             }
-                        } else if (material.equals(Material.WALL_SIGN) || material.equals(Material.SIGN_POST)) {
-                            if (holder.getType().equals(Material.WALL_SIGN) || holder.getType().equals(Material.SIGN_POST)) {
+                        } else if (material.equals(Material.WALL_SIGN) || material.equals(XMaterial.OAK_WALL_SIGN.parseMaterial())) {
+                            if (holder.getType().equals(Material.WALL_SIGN) || holder.getType().equals(XMaterial.OAK_WALL_SIGN.parseMaterial())) {
                                 result++;
                             }
                         }

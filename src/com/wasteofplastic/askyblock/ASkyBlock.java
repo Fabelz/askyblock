@@ -111,6 +111,8 @@ public class ASkyBlock extends JavaPlugin {
     private TopTen topTen;
     // V1.8 or later
     private boolean onePointEight;
+    // V1.13 or later
+    private boolean onePointThirteen;
 
     // Update object
     private Updater updateCheck = null;
@@ -287,6 +289,17 @@ public class ASkyBlock extends JavaPlugin {
         }
         if (clazz != null) {
             onePointEight = true;
+        }
+
+        clazz = null;
+        try {
+            clazz = Class.forName("org.bukkit.event.player.PlayerRiptideEvent");
+        } catch (Exception e) {
+            //getLogger().info("No PlayerRiptideEvent found.");
+            clazz = null;
+        }
+        if (clazz != null) {
+            onePointThirteen = true;
         }
 
         saveDefaultConfig();
@@ -934,6 +947,13 @@ public class ASkyBlock extends JavaPlugin {
      */
     public boolean isOnePointEight() {
         return onePointEight;
+    }
+
+    /**
+     * @return the onePointThirteen
+     */
+    public boolean isOnePointThirteen() {
+        return onePointThirteen;
     }
 
     /**

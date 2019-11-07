@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
+import com.wasteofplastic.askyblock.XMaterial;
 import org.bukkit.Material;
 import org.bukkit.SkullType;
 import org.bukkit.block.Block;
@@ -222,7 +223,7 @@ public class SkullBlock {
     // Credits: GermanCoding
     @SuppressWarnings("deprecation")
     public static void setSkullWithNonPlayerProfile(String textureValue, String textureSignature, String ownerUUID, String ownerName, Skull skull) {
-        if (skull.getType() != Material.SKULL)
+        if (skull.getType() != XMaterial.PLAYER_HEAD.parseMaterial())
             throw new IllegalArgumentException("Block must be a skull.");
 
         skull.getWorld().refreshChunk(skull.getChunk().getX(), skull.getChunk().getZ());

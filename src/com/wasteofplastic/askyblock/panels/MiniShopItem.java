@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.wasteofplastic.askyblock.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
@@ -79,7 +80,7 @@ public class MiniShopItem {
                 // plugin.getLogger().info("DEBUG: extra is not empty");                
                 // If it not a potion, then the extras should just be durability
                 if (!material.name().contains("POTION")) {
-                    if (material.equals(Material.MONSTER_EGG)) {
+                    if (XMaterial.matchXMaterial(material.name()).isMonsterEgg()) {
                         try {
                             EntityType type = EntityType.valueOf(extra.toUpperCase());
                             if (Bukkit.getServer().getVersion().contains("(MC: 1.8") || Bukkit.getServer().getVersion().contains("(MC: 1.7")) {
@@ -101,7 +102,7 @@ public class MiniShopItem {
                                 }
                             }
                         }
-                    } else if (!material.equals(Material.MOB_SPAWNER)) {
+                    } else if (!material.equals(XMaterial.SPAWNER.parseMaterial())) {
                         item.setDurability(Short.parseShort(extra));
                     }
                 } else {
@@ -117,7 +118,7 @@ public class MiniShopItem {
             List<String> desc = new ArrayList<String>(Arrays.asList(description.split("\\|")));
             meta.setDisplayName(desc.get(0));
             ArrayList<String> buyAndSell = new ArrayList<String>();
-            if (material.equals(Material.MOB_SPAWNER) && !extra.isEmpty()) {
+            if (material.equals(XMaterial.SPAWNER.parseMaterial()) && !extra.isEmpty()) {
                 //Bukkit.getLogger().info("DEBUG: mob spawner and extra is " + extra);
                 // Get the entity type
                 for (EntityType type : EntityType.values()) {
@@ -177,7 +178,7 @@ public class MiniShopItem {
         ItemMeta meta = temp.getItemMeta();
         meta.setDisplayName(null);
         List<String> lore = new ArrayList<String>(1);
-        if (item.getType().equals(Material.MOB_SPAWNER)) {  
+        if (item.getType().equals(XMaterial.SPAWNER.parseMaterial())) {
             lore.add(Util.prettifyText(entityType.name()));
         }
         meta.setLore(lore);

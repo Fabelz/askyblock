@@ -14,15 +14,6 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<server.jars>${project.basedir}/lib</server.jars>
 	</properties>
-	<!-- Ignore or delete the distribution management part of this POM if you 
-		are not tastybento! -->
-	<distributionManagement>
-		<repository>
-			<id>bintray-tastybento-maven-repo</id>
-			<name>tastybento-askyblock</name>
-			<url>https://api.bintray.com/maven/tastybento/maven-repo/askyblock/;publish=1</url>
-		</repository>
-	</distributionManagement>
 	<build>
 		<defaultGoal>clean package install</defaultGoal>
 		<finalName>askyblock</finalName>
@@ -107,7 +98,7 @@
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>1.12.2-R0.1-SNAPSHOT</version>
+			<version>1.13.2-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -131,91 +122,91 @@
 			<groupId>bukkit.org</groupId>
 			<artifactId>craftbukkit</artifactId>
 			<scope>system</scope>
-			<systemPath>${server.jars}/craftbukkit-1.7.9-R0.3-20140705.002733-4.jar</systemPath>
+			<systemPath>c:/users/${env.USERNAME}/IdeaProjects/Servers/craftbukkit-1.7.9-R0.2.jar</systemPath>
 			<version>1.7.9</version>
 		</dependency>
 		<dependency>
 			<groupId>spigotmc.org</groupId>
 			<artifactId>spigot-1.9.2</artifactId>
 			<scope>system</scope>
-			<systemPath>${server.jars}/spigot-1.9.2.jar</systemPath>
+			<systemPath>c:/users/${env.USERNAME}/IdeaProjects/Servers/spigot-1.9.2.jar</systemPath>
 			<version>1.9.2</version>
 		</dependency>
 		<dependency>
 			<groupId>spigotmc.org</groupId>
 			<artifactId>spigot-1.9.4</artifactId>
 			<scope>system</scope>
-			<systemPath>${server.jars}/spigot-1.9.4.jar</systemPath>
+			<systemPath>c:/users/${env.USERNAME}/IdeaProjects/Servers/spigot-1.9.4.jar</systemPath>
 			<version>1.9.4</version>
 		</dependency>
 		<dependency>
 			<groupId>spigotmc.org</groupId>
 			<artifactId>spigot-1.12</artifactId>
 			<scope>system</scope>
-			<systemPath>${server.jars}/spigot-1.12.jar</systemPath>
+			<systemPath>c:/users/${env.USERNAME}/IdeaProjects/Servers/spigot-1.12.jar</systemPath>
 			<version>1.12</version>
 		</dependency>
 		<dependency>
 			<groupId>spigotmc.org</groupId>
 			<artifactId>spigot-1.10</artifactId>
 			<scope>system</scope>
-			<systemPath>${server.jars}/spigot-1.10.jar</systemPath>
+			<systemPath>c:/users/${env.USERNAME}/IdeaProjects/Servers/spigot-1.10.jar</systemPath>
 			<version>1.10</version>
 		</dependency>
 		<dependency>
 			<groupId>spigotmc.org</groupId>
 			<artifactId>spigot-1.11</artifactId>
 			<scope>system</scope>
-			<systemPath>${server.jars}/spigot-1.11.jar</systemPath>
+			<systemPath>c:/users/${env.USERNAME}/IdeaProjects/Servers/spigot-1.11.jar</systemPath>
 			<version>1.11</version>
 		</dependency>
 		<dependency>
 			<groupId>spigotmc.org</groupId>
 			<artifactId>spigot-1.9</artifactId>
 			<scope>system</scope>
-			<systemPath>${server.jars}/spigot-1.9.jar</systemPath>
+			<systemPath>c:/users/${env.USERNAME}/IdeaProjects/Servers/spigot-1.9.jar</systemPath>
 			<version>1.9</version>
 		</dependency>
 		<dependency>
 			<groupId>spigotmc.org</groupId>
 			<artifactId>spigot-1.8</artifactId>
 			<scope>system</scope>
-			<systemPath>${server.jars}/spigot-1.8.jar</systemPath>
+			<systemPath>c:/users/${env.USERNAME}/IdeaProjects/Servers/spigot-1.8.jar</systemPath>
 			<version>1.8</version>
 		</dependency>
 		<dependency>
 			<groupId>spigotmc.org</groupId>
 			<artifactId>spigot.1.8.3</artifactId>
 			<scope>system</scope>
-			<systemPath>${server.jars}/spigot-1.8.3.jar</systemPath>
+			<systemPath>c:/users/${env.USERNAME}/IdeaProjects/Servers/spigot-1.8.3.jar</systemPath>
 			<version>1.8.3</version>
 		</dependency>
 		<dependency>
 			<groupId>spigotmc.org</groupId>
 			<artifactId>spigot.1.8.4</artifactId>
 			<scope>system</scope>
-			<systemPath>${server.jars}/spigot-1.8.4.jar</systemPath>
+			<systemPath>c:/users/${env.USERNAME}/IdeaProjects/Servers/spigot-1.8.4.jar</systemPath>
 			<version>1.8.4</version>
 		</dependency>
 		<dependency>
 			<groupId>spigotmc.org</groupId>
 			<artifactId>spigot.1.8.6</artifactId>
 			<scope>system</scope>
-			<systemPath>${server.jars}/spigot-1.8.6.jar</systemPath>
+			<systemPath>c:/users/${env.USERNAME}/IdeaProjects/Servers/spigot-1.8.6.jar</systemPath>
 			<version>1.8.6</version>
 		</dependency>
 		<dependency>
 			<groupId>spigotmc.org</groupId>
 			<artifactId>spigot.1.8.8</artifactId>
 			<scope>system</scope>
-			<systemPath>${server.jars}/spigot-1.8.8.jar</systemPath>
+			<systemPath>c:/users/${env.USERNAME}/IdeaProjects/Servers/spigot-1.8.8.jar</systemPath>
 			<version>1.8.8</version>
 		</dependency>
 		<dependency>
 			<groupId>spigotmc.org</groupId>
 			<artifactId>spigot-1649</artifactId>
 			<scope>system</scope>
-			<systemPath>${server.jars}/spigot-1649.jar</systemPath>
+			<systemPath>c:/users/${env.USERNAME}/IdeaProjects/Servers/spigot-1.7.10.jar</systemPath>
 			<version>1.7.10</version>
 		</dependency>
 	</dependencies>

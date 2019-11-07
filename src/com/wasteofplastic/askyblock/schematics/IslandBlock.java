@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.wasteofplastic.askyblock.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -63,116 +64,9 @@ public class IslandBlock {
     private EntityType spawnerBlockType;
     // Chest contents
     private final Map<Byte,ItemStack> chestContents = new HashMap<>();
-    protected static final Map<String, Material> WEtoM = new HashMap<>();
     protected static final Map<String, EntityType> WEtoME = new HashMap<>();
 
     static {
-        // Establish the World Edit to Material look up
-        // V1.8 items
-        if (!Bukkit.getServer().getVersion().contains("(MC: 1.7")) {
-
-            WEtoM.put("ARMORSTAND",Material.ARMOR_STAND);
-            WEtoM.put("ACACIA_DOOR",Material.ACACIA_DOOR_ITEM);
-            WEtoM.put("BIRCH_DOOR",Material.BIRCH_DOOR_ITEM);
-            WEtoM.put("BIRCH_STAIRS",Material.BIRCH_WOOD_STAIRS);
-            WEtoM.put("DARK_OAK_DOOR",Material.DARK_OAK_DOOR_ITEM);
-            WEtoM.put("JUNGLE_DOOR",Material.JUNGLE_DOOR_ITEM);
-            WEtoM.put("SLIME",Material.SLIME_BLOCK);
-            WEtoM.put("SPRUCE_DOOR",Material.SPRUCE_DOOR_ITEM);
-        }
-        WEtoM.put("BREWING_STAND",Material.BREWING_STAND_ITEM);
-        WEtoM.put("CARROT_ON_A_STICK",Material.CARROT_STICK);
-        WEtoM.put("CARROT",Material.CARROT_ITEM);
-        WEtoM.put("CAULDRON", Material.CAULDRON_ITEM);
-        WEtoM.put("CHEST_MINECART", Material.STORAGE_MINECART);
-        WEtoM.put("CLOCK", Material.WATCH);
-        WEtoM.put("COBBLESTONE_WALL",Material.COBBLE_WALL);
-        WEtoM.put("COMMAND_BLOCK",Material.COMMAND);
-        WEtoM.put("COMMANDBLOCK_MINECART",Material.COMMAND_MINECART);
-        WEtoM.put("COMPARATOR",Material.REDSTONE_COMPARATOR);
-        WEtoM.put("COOKED_PORKCHOP", Material.GRILLED_PORK);
-        WEtoM.put("CLOCK", Material.WATCH);
-        WEtoM.put("CRAFTING_TABLE", Material.WORKBENCH);
-        WEtoM.put("DIAMOND_HORSE_ARMOR",Material.DIAMOND_BARDING);
-        WEtoM.put("DIAMOND_SHOVEL",Material.DIAMOND_SPADE);
-        WEtoM.put("DYE",Material.INK_SACK);
-        WEtoM.put("ENCHANTING_TABLE", Material.ENCHANTMENT_TABLE); //1.11 rename
-        WEtoM.put("END_PORTAL_FRAME",Material.ENDER_PORTAL_FRAME);
-        WEtoM.put("END_PORTAL", Material.ENDER_PORTAL); // 1.11 rename
-        WEtoM.put("END_STONE", Material.ENDER_STONE);
-        WEtoM.put("EXPERIENCE_BOTTLE",Material.EXP_BOTTLE);
-        WEtoM.put("FILLED_MAP",Material.MAP);
-        WEtoM.put("FIRE_CHARGE",Material.FIREBALL);
-        WEtoM.put("FIREWORKS",Material.FIREWORK);
-        WEtoM.put("FLOWER_POT", Material.FLOWER_POT_ITEM);
-        WEtoM.put("GLASS_PANE",Material.THIN_GLASS);
-        WEtoM.put("GOLDEN_CHESTPLATE",Material.GOLD_CHESTPLATE);
-        WEtoM.put("GOLDEN_HORSE_ARMOR",Material.GOLD_BARDING);
-        WEtoM.put("GOLDEN_LEGGINGS",Material.GOLD_LEGGINGS);
-        WEtoM.put("GOLDEN_PICKAXE",Material.GOLD_PICKAXE);
-        WEtoM.put("GOLDEN_RAIL",Material.POWERED_RAIL);
-        WEtoM.put("GOLDEN_SHOVEL",Material.GOLD_SPADE);
-        WEtoM.put("GOLDEN_SWORD", Material.GOLD_SWORD);
-        WEtoM.put("GOLDEN_HELMET", Material.GOLD_HELMET);
-        WEtoM.put("GOLDEN_HOE", Material.GOLD_HOE);
-        WEtoM.put("GOLDEN_AXE", Material.GOLD_AXE);
-        WEtoM.put("GOLDEN_BOOTS", Material.GOLD_BOOTS);
-        WEtoM.put("GUNPOWDER", Material.SULPHUR);
-        WEtoM.put("HARDENED_CLAY",Material.HARD_CLAY);
-        WEtoM.put("HEAVY_WEIGHTED_PRESSURE_PLATE",Material.GOLD_PLATE);
-        WEtoM.put("IRON_BARS",Material.IRON_FENCE);
-        WEtoM.put("IRON_HORSE_ARMOR",Material.IRON_BARDING);
-        WEtoM.put("IRON_SHOVEL",Material.IRON_SPADE);
-        WEtoM.put("LEAD",Material.LEASH);
-        WEtoM.put("LEAVES2",Material.LEAVES_2);
-        WEtoM.put("LIGHT_WEIGHTED_PRESSURE_PLATE",Material.IRON_PLATE);
-        WEtoM.put("LOG2",Material.LOG_2);
-        WEtoM.put("MAP",Material.EMPTY_MAP);
-        WEtoM.put("MYCELIUM", Material.MYCEL);
-        WEtoM.put("NETHER_BRICK_FENCE",Material.NETHER_FENCE);
-        WEtoM.put("NETHER_WART",Material.NETHER_STALK);
-        WEtoM.put("NETHERBRICK",Material.NETHER_BRICK_ITEM);
-        WEtoM.put("OAK_STAIRS",Material.WOOD_STAIRS);
-        WEtoM.put("PISTON",Material.PISTON_BASE);
-        WEtoM.put("PLANKS",Material.WOOD);
-        WEtoM.put("POTATO", Material.POTATO_ITEM);
-        WEtoM.put("RAIL",Material.RAILS);
-        WEtoM.put("RECORD_11",Material.RECORD_11);
-        WEtoM.put("RECORD_13",Material.GOLD_RECORD);
-        WEtoM.put("RECORD_BLOCKS",Material.RECORD_3);
-        WEtoM.put("RECORD_CAT",Material.GREEN_RECORD);
-        WEtoM.put("RECORD_CHIRP",Material.RECORD_4);
-        WEtoM.put("RECORD_FAR",Material.RECORD_5);
-        WEtoM.put("RECORD_MALL",Material.RECORD_6);
-        WEtoM.put("RECORD_MELLOHI",Material.RECORD_7);
-        WEtoM.put("RECORD_STAL",Material.RECORD_8);
-        WEtoM.put("RECORD_STRAD",Material.RECORD_9);
-        WEtoM.put("RECORD_WAIT",Material.RECORD_12);
-        WEtoM.put("RECORD_WARD",Material.RECORD_10);
-        WEtoM.put("RED_FLOWER",Material.RED_ROSE);
-        WEtoM.put("REEDS",Material.SUGAR_CANE);
-        WEtoM.put("REPEATER",Material.DIODE);
-        WEtoM.put("SKULL", Material.SKULL_ITEM);
-        WEtoM.put("SPAWN_EGG",Material.MONSTER_EGG);
-        WEtoM.put("STICKY_PISTON",Material.PISTON_STICKY_BASE);
-        WEtoM.put("STONE_BRICK_STAIRS",Material.BRICK_STAIRS);
-        WEtoM.put("STONE_BRICK_STAIRS",Material.SMOOTH_STAIRS);
-        WEtoM.put("STONE_SHOVEL",Material.STONE_SPADE);
-        WEtoM.put("STONE_SLAB",Material.STEP);
-        WEtoM.put("STONE_STAIRS",Material.COBBLESTONE_STAIRS);
-        WEtoM.put("TNT_MINECART",Material.EXPLOSIVE_MINECART);
-        WEtoM.put("WATERLILY",Material.WATER_LILY);
-        WEtoM.put("WHEAT_SEEDS", Material.SEEDS);
-        WEtoM.put("WOODEN_AXE",Material.WOOD_AXE);
-        WEtoM.put("WOODEN_BUTTON",Material.WOOD_BUTTON);
-        WEtoM.put("WOODEN_DOOR",Material.WOOD_DOOR);
-        WEtoM.put("WOODEN_HOE",Material.WOOD_HOE);
-        WEtoM.put("WOODEN_PICKAXE",Material.WOOD_PICKAXE);
-        WEtoM.put("WOODEN_PRESSURE_PLATE",Material.WOOD_PLATE);
-        WEtoM.put("WOODEN_SHOVEL",Material.WOOD_SPADE);
-        WEtoM.put("WOODEN_SLAB",Material.WOOD_STEP);
-        WEtoM.put("WOODEN_SWORD",Material.WOOD_SWORD);
-        WEtoM.put("MUSHROOM_STEW",Material.MUSHROOM_SOUP);
         // Entities
         WEtoME.put("LAVASLIME", EntityType.MAGMA_CUBE);
         WEtoME.put("ENTITYHORSE", EntityType.HORSE);
@@ -207,7 +101,6 @@ public class IslandBlock {
         // 1.10 entities and materials
         if (!Bukkit.getServer().getVersion().contains("(MC: 1.7") && !Bukkit.getServer().getVersion().contains("(MC: 1.8") && !Bukkit.getServer().getVersion().contains("(MC: 1.9")) {
             WEtoME.put("POLARBEAR", EntityType.POLAR_BEAR);
-            WEtoM.put("ENDER_CRYSTAL", Material.END_CRYSTAL); // 1.11
         }
     }
 
@@ -477,7 +370,7 @@ public class IslandBlock {
                             short itemDamage = (Short) ((CompoundTag) item).getValue().get("Damage").getValue();
                             byte itemAmount = (Byte) ((CompoundTag) item).getValue().get("Count").getValue();
                             byte itemSlot = (Byte) ((CompoundTag) item).getValue().get("Slot").getValue();
-                            ItemStack chestItem = new ItemStack(itemType, itemAmount, itemDamage);
+                            ItemStack chestItem = new ItemStack(XMaterial.matchXMaterial(itemType, (byte) 0).parseMaterial(), itemAmount, itemDamage);
                             chestContents.put(itemSlot, chestItem);
                         } catch (ClassCastException ex) {
                             // Id is a material
@@ -491,9 +384,9 @@ public class IslandBlock {
 
                                     //Bukkit.getLogger().info("DEBUG: " + material);
 
-                                    if (WEtoM.containsKey(material)) {
+                                    if (XMaterial.matchXMaterial(material) != null) {
                                         //Bukkit.getLogger().info("DEBUG: Found in hashmap");
-                                        itemMaterial = WEtoM.get(material);
+                                        itemMaterial = XMaterial.parseMaterial(material, (byte) 0);
                                     } else {
                                         //Bukkit.getLogger().info("DEBUG: Not in hashmap");
                                         itemMaterial = Material.valueOf(material);
@@ -549,8 +442,8 @@ public class IslandBlock {
         block.setBiome(biome);
         nms.setBlockSuperFast(block, typeId, data, usePhysics);
         if (signText != null) {
-            if (block.getTypeId() != typeId) {
-                block.setTypeId(typeId);
+            if (block.getType().getId() != typeId) {
+                block.setType(XMaterial.matchXMaterial(typeId, (byte) 0).parseMaterial());
             }
             // Sign
             Sign sign = (Sign) block.getState();
@@ -566,16 +459,16 @@ public class IslandBlock {
         } else if (pot != null){
             pot.set(nms, block);
         } else if (spawnerBlockType != null) {
-            if (block.getTypeId() != typeId) {
-                block.setTypeId(typeId);
+            if (block.getType().getId() != typeId) {
+                block.setType(XMaterial.matchXMaterial(typeId, (byte) 0).parseMaterial());
             }
             CreatureSpawner cs = (CreatureSpawner)block.getState();
             cs.setSpawnedType(spawnerBlockType);
             //Bukkit.getLogger().info("DEBUG: setting spawner");
             cs.update(true, false);
         } else if (!chestContents.isEmpty()) {
-            if (block.getTypeId() != typeId) {
-                block.setTypeId(typeId);
+            if (block.getType().getId() != typeId) {
+                block.setType(XMaterial.matchXMaterial(typeId, (byte) 0).parseMaterial());
             }
             //Bukkit.getLogger().info("DEBUG: inventory holder "+ block.getType());
             // Check if this is a double chest

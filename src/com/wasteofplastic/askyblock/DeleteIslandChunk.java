@@ -103,26 +103,28 @@ public class DeleteIslandChunk {
                                         Material setTo = Material.AIR;
                                         // Split depending on below or above water line
                                         if (y < Settings.seaHeight) {
-                                            setTo = Material.STATIONARY_WATER;
+                                            setTo = XMaterial.WATER.parseMaterial();
                                         }
                                         // Grab anything out of containers (do that it is
                                         // destroyed)
-                                        switch (blockType) {
-                                        case CHEST:
-                                        case TRAPPED_CHEST:
-                                        case FURNACE:
-                                        case DISPENSER:
-                                        case HOPPER:
+                                        switch (blockType.name()) {
+                                        case "CHEST":
+                                        case "TRAPPED_CHEST":
+                                        case "FURNACE":
+                                        case "DISPENSER":
+                                        case "HOPPER":
                                             final InventoryHolder ih = ((InventoryHolder)block.getState());
                                             ih.getInventory().clear();
                                             block.setType(setTo);
                                             break;
-                                        case AIR:
-                                            if (setTo.equals(Material.STATIONARY_WATER)) {
+                                        case "AIR":
+                                        case "CAVE_AIR":
+                                            if (setTo.equals(XMaterial.WATER.parseMaterial())) {
                                                 nms.setBlockSuperFast(block, setTo.getId(), (byte)0, false);
                                             }
                                             break;
-                                        case STATIONARY_WATER:
+                                        case "WATER":
+                                        case "STATIONARY_WATER":
                                             if (setTo.equals(Material.AIR)) {
                                                 nms.setBlockSuperFast(block, setTo.getId(), (byte)0, false);
                                             }

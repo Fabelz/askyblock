@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.wasteofplastic.askyblock.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -277,11 +278,12 @@ public class IslandGuard1_9 implements Listener {
                 List<Block> toberemoved = new ArrayList<>();
                 // Save the chest blocks in a list
                 for (Block b : e.blockList()) {
-                    switch (b.getType()) {
-                    case CHEST:
-                    case ENDER_CHEST:
-                    case STORAGE_MINECART:
-                    case TRAPPED_CHEST:
+                    switch (b.getType().name()) {
+                    case "CHEST":
+                    case "ENDER_CHEST":
+                    case "CHEST_MINECART":
+                    case "STORAGE_MINECART":
+                    case "TRAPPED_CHEST":
                         toberemoved.add(b);
                         break;
                     default:
@@ -417,7 +419,7 @@ public class IslandGuard1_9 implements Listener {
         }
         // Prevents tilling of coarse dirt into dirt
         ItemStack inHand = e.getPlayer().getInventory().getItemInOffHand();
-        if (inHand.getType() == Material.WOOD_HOE || inHand.getType() == Material.IRON_HOE || inHand.getType() == Material.GOLD_HOE
+        if (inHand.getType() == XMaterial.WOODEN_HOE.parseMaterial() || inHand.getType() == Material.IRON_HOE || inHand.getType() == XMaterial.GOLDEN_HOE.parseMaterial()
                 || inHand.getType() == Material.DIAMOND_HOE || inHand.getType() == Material.STONE_HOE) {
             // plugin.getLogger().info("1.8 " + "DEBUG: hoe in hand");
             Block block = e.getClickedBlock();

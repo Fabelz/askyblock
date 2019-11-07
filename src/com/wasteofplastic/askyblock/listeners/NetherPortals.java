@@ -18,6 +18,7 @@ package com.wasteofplastic.askyblock.listeners;
 
 import java.util.UUID;
 
+import com.wasteofplastic.askyblock.*;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -38,11 +39,7 @@ import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.world.StructureGrowEvent;
 import org.bukkit.util.Vector;
 
-import com.wasteofplastic.askyblock.ASkyBlock;
-import com.wasteofplastic.askyblock.GridManager;
-import com.wasteofplastic.askyblock.Island;
 import com.wasteofplastic.askyblock.Island.SettingsFlag;
-import com.wasteofplastic.askyblock.Settings;
 import com.wasteofplastic.askyblock.commands.IslandCmd;
 import com.wasteofplastic.askyblock.events.IslandEnterEvent;
 import com.wasteofplastic.askyblock.schematics.Schematic;
@@ -389,9 +386,13 @@ public class NetherPortals implements Listener {
             return;
         }
         for (BlockState b : e.getBlocks()) {
-            if (b.getType() == Material.LOG || b.getType() == Material.LOG_2) {
+            if (b.getType() == XMaterial.OAK_WOOD.parseMaterial() || b.getType() == XMaterial.SPRUCE_WOOD.parseMaterial() ||
+                    b.getType() == XMaterial.BIRCH_WOOD.parseMaterial() || b.getType() == XMaterial.JUNGLE_WOOD.parseMaterial() ||
+                    b.getType() == XMaterial.ACACIA_WOOD.parseMaterial() || b.getType() == XMaterial.DARK_OAK_WOOD.parseMaterial()) {
                 b.setType(Material.GRAVEL);
-            } else if (b.getType() == Material.LEAVES || b.getType() == Material.LEAVES_2) {
+            } else if (b.getType() == XMaterial.OAK_LEAVES.parseMaterial() || b.getType() == XMaterial.SPRUCE_LEAVES.parseMaterial() ||
+                    b.getType() == XMaterial.BIRCH_LEAVES.parseMaterial() || b.getType() == XMaterial.JUNGLE_LEAVES.parseMaterial() ||
+                    b.getType() == XMaterial.ACACIA_LEAVES.parseMaterial() || b.getType() == XMaterial.DARK_OAK_LEAVES.parseMaterial()) {
                 b.setType(Material.GLOWSTONE);
             }
         }

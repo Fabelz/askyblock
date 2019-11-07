@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import com.wasteofplastic.askyblock.*;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -37,10 +38,6 @@ import org.bukkit.scheduler.BukkitTask;
 
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
-import com.wasteofplastic.askyblock.ASkyBlock;
-import com.wasteofplastic.askyblock.ASkyBlockAPI;
-import com.wasteofplastic.askyblock.Island;
-import com.wasteofplastic.askyblock.Settings;
 import com.wasteofplastic.askyblock.util.Util;
 
 /**
@@ -92,7 +89,7 @@ public class LavaCheck implements Listener {
                 public void run() {
                     // plugin.getLogger().info("To material is after 1 tick " +
                     // to.getType().toString());
-                    if ((prev.equals(Material.WATER) || prev.equals(Material.STATIONARY_WATER)) && to.getType().equals(Material.STONE)) {
+                    if ((prev.equals(Material.WATER) || prev.equals(XMaterial.WATER.parseMaterial())) && to.getType().equals(Material.STONE)) {
                         to.setType(prev);
                         if (plugin.getServer().getVersion().contains("(MC: 1.8") || plugin.getServer().getVersion().contains("(MC: 1.7")) {
                             to.getWorld().playSound(to.getLocation(), Sound.valueOf("FIZZ"), 1F, 2F);
@@ -140,8 +137,8 @@ public class LavaCheck implements Listener {
         }
 
         final Block b = e.getBlock();
-        if (b.getType().equals(Material.WATER) || b.getType().equals(Material.STATIONARY_WATER) 
-                || b.getType().equals(Material.LAVA) || b.getType().equals(Material.STATIONARY_LAVA)) {
+        if (b.getType().equals(Material.WATER) || b.getType().equals(XMaterial.WATER.parseMaterial())
+                || b.getType().equals(Material.LAVA) || b.getType().equals(XMaterial.LAVA.parseMaterial())) {
             //plugin.getLogger().info("DEBUG: From block is water or lava. To = " + e.getToBlock().getType());
             final Block toBlock = e.getToBlock();
             if (toBlock.getType().equals(Material.AIR) && generatesCobble(b, toBlock)){
@@ -211,8 +208,8 @@ public class LavaCheck implements Listener {
 
 
     public boolean generatesCobble(Block block, Block toBlock){
-        Material mirrorID1 = (block.getType().equals(Material.WATER)) || (block.getType().equals(Material.STATIONARY_WATER)) ? Material.LAVA : Material.WATER;
-        Material mirrorID2 = (block.getType().equals(Material.WATER)) || (block.getType().equals(Material.STATIONARY_WATER)) ? Material.STATIONARY_LAVA : Material.STATIONARY_WATER;
+        Material mirrorID1 = (block.getType().equals(Material.WATER)) || (block.getType().equals(XMaterial.WATER.parseMaterial())) ? Material.LAVA : Material.WATER;
+        Material mirrorID2 = (block.getType().equals(Material.WATER)) || (block.getType().equals(XMaterial.WATER.parseMaterial())) ? XMaterial.LAVA.parseMaterial() : XMaterial.WATER.parseMaterial();
         for (BlockFace face: FACES) {
             Block r = toBlock.getRelative(face);
             if ((r.getType().equals(mirrorID1)) || (r.getType().equals(mirrorID2))) {
