@@ -200,7 +200,7 @@ public class PluginConfig {
                     } else {
                         Material mat;
                         if (StringUtils.isNumeric(amountdata[0])) {
-                            mat = Material.getMaterial(Integer.parseInt(amountdata[0]));
+                            mat = XMaterial.matchXMaterial(Integer.parseInt(amountdata[0]), (byte) 0).parseMaterial();
                         } else {
                             mat = Material.getMaterial(amountdata[0].toUpperCase());
                         }
@@ -887,13 +887,13 @@ public class PluginConfig {
                     }
                     Material mat;
                     if (StringUtils.isNumeric(split[0])) {
-                        mat = Material.getMaterial(Integer.parseInt(split[0]));
+                        mat = XMaterial.matchXMaterial(Integer.parseInt(split[0]), data).parseMaterial();
                     } else {
-                        mat = Material.valueOf(split[0].toUpperCase());
+                        mat = XMaterial.matchXMaterial(split[0].toUpperCase(), data).parseMaterial();
                     }
                     MaterialData materialData = new MaterialData(mat);
                     materialData.setData(data);
-                    Settings.blockLimits.put(materialData, blockValuesConfig.getInt("limits." + material, 0));
+                    Settings.blockLimits.put(materialData, blockValuesConfig.getInt("limits." + XMaterial.matchXMaterial(materialData.getItemType()), 0));
                     if (DEBUG) {
                         plugin.getLogger().info("Maximum number of " + materialData + " will be " + Settings.blockLimits.get(materialData));
                     }
@@ -905,17 +905,17 @@ public class PluginConfig {
         Settings.blockValues = new HashMap<MaterialData, Integer>();
         if (blockValuesConfig.isSet("blocks")) {
             for (String material : blockValuesConfig.getConfigurationSection("blocks").getKeys(false)) {
+                String[] split = material.split(":");
                 try {
-                    String[] split = material.split(":");
                     byte data = 0;
                     if (split.length>1) {
                         data = Byte.valueOf(split[1]);
                     }
                     MaterialData materialData = null;
                     if (StringUtils.isNumeric(split[0])) {
-                        materialData = new MaterialData(Integer.parseInt(split[0]));
+                        materialData = new MaterialData(XMaterial.matchXMaterial(Integer.parseInt(split[0]), data).parseMaterial());
                     } else {
-                        materialData = new MaterialData(Material.valueOf(split[0].toUpperCase()));
+                        materialData = new MaterialData(XMaterial.matchXMaterial(split[0].toUpperCase(), data).parseMaterial());
                     }
 
                     materialData.setData(data);
@@ -924,7 +924,6 @@ public class PluginConfig {
                         plugin.getLogger().info(materialData.toString() + " value " + Settings.blockValues.get(materialData));
                     }
                 } catch (Exception e) {
-                    // e.printStackTrace();
                     plugin.getLogger().warning("Unknown material (" + material + ") in blockvalues.yml blocks section. Skipping...");
                 }
             }

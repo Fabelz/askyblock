@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.wasteofplastic.askyblock.XMaterial;
+import com.wasteofplastic.askyblock.util.Util;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -70,10 +72,16 @@ public class NMSHandler implements NMSAbstraction {
             }
         } catch (Exception e) {
             //Bukkit.getLogger().info("Error");
-            b.setTypeIdAndData(blockId, data, applyPhysics);
+            b.setType(XMaterial.matchXMaterial(blockId, (byte) 0).parseMaterial(), applyPhysics);
+            Util.setBlockData(b, data, applyPhysics);
         }
 
 
+    }
+
+    @Override
+    public void setBlockSuperFast(Block b, Material type, byte data, boolean applyPhysics) {
+        setBlockSuperFast(b, type.getId(), data, applyPhysics);
     }
 
     @Override

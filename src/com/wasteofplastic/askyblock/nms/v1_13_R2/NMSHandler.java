@@ -15,64 +15,65 @@
  *     along with ASkyBlock.  If not, see <http://www.gnu.org/licenses/>.
  *******************************************************************************/
 
-package com.wasteofplastic.askyblock.nms.v1_9_R1;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_9_R1.CraftWorld;
-import org.bukkit.craftbukkit.v1_9_R1.inventory.CraftItemStack;
-import org.bukkit.entity.EntityType;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
+package com.wasteofplastic.askyblock.nms.v1_13_R2;
 
 import com.wasteofplastic.askyblock.nms.NMSAbstraction;
 import com.wasteofplastic.org.jnbt.CompoundTag;
 import com.wasteofplastic.org.jnbt.ListTag;
 import com.wasteofplastic.org.jnbt.StringTag;
 import com.wasteofplastic.org.jnbt.Tag;
+import net.minecraft.server.v1_13_R2.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_13_R2.CraftWorld;
+import org.bukkit.craftbukkit.v1_13_R2.inventory.CraftItemStack;
+import org.bukkit.entity.EntityType;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
-import net.minecraft.server.v1_9_R1.BlockPosition;
-import net.minecraft.server.v1_9_R1.IBlockData;
-import net.minecraft.server.v1_9_R1.NBTTagCompound;
-import net.minecraft.server.v1_9_R1.NBTTagList;
-import net.minecraft.server.v1_9_R1.NBTTagString;
-import net.minecraft.server.v1_9_R1.TileEntityFlowerPot;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class NMSHandler implements NMSAbstraction {
 
+    private static HashMap<EntityType, String> bToMConversion;
+
+    static {
+        bToMConversion = new HashMap<EntityType, String> ();
+        bToMConversion.put(EntityType.MUSHROOM_COW, "mooshroom");
+        bToMConversion.put(EntityType.PIG_ZOMBIE, "zombie_pigman");
+    }
+
     @Override
     public void setBlockSuperFast(Block b, int blockId, byte data, boolean applyPhysics) {
-        net.minecraft.server.v1_9_R1.World w = ((CraftWorld) b.getWorld()).getHandle();
-        net.minecraft.server.v1_9_R1.Chunk chunk = w.getChunkAt(b.getX() >> 4, b.getZ() >> 4);
+        World w = ((CraftWorld) b.getWorld()).getHandle();
+        Chunk chunk = w.getChunkAt(b.getX() >> 4, b.getZ() >> 4);
         BlockPosition bp = new BlockPosition(b.getX(), b.getY(), b.getZ());
         int combined = blockId + (data << 12);
-        IBlockData ibd = net.minecraft.server.v1_9_R1.Block.getByCombinedId(combined);
+        IBlockData ibd = net.minecraft.server.v1_13_R2.Block.getByCombinedId(combined);
         if (applyPhysics) {
             w.setTypeAndData(bp, ibd, 3); 
         } else {
             w.setTypeAndData(bp, ibd, 2); 
         }
-        chunk.a(bp, ibd);
+        chunk.a(bp, ibd, false);
     }
 
     @Override
     public void setBlockSuperFast(Block b, Material type, byte data, boolean applyPhysics) {
-        net.minecraft.server.v1_9_R1.World w = ((CraftWorld) b.getWorld()).getHandle();
-        net.minecraft.server.v1_9_R1.Chunk chunk = w.getChunkAt(b.getX() >> 4, b.getZ() >> 4);
+        World w = ((CraftWorld) b.getWorld()).getHandle();
+        Chunk chunk = w.getChunkAt(b.getX() >> 4, b.getZ() >> 4);
         BlockPosition bp = new BlockPosition(b.getX(), b.getY(), b.getZ());
-        IBlockData ibd = net.minecraft.server.v1_9_R1.Block.getByName(type.name()).getBlockData();
+        IBlockData ibd = IRegistry.BLOCK.getOrDefault(new MinecraftKey(type.toString().toLowerCase())).getBlockData();
         if (applyPhysics) {
             w.setTypeAndData(bp, ibd, 3);
         } else {
             w.setTypeAndData(bp, ibd, 2);
         }
-        chunk.a(bp, ibd);
+        chunk.a(bp, ibd, false);
     }
 
     @Override
@@ -104,7 +105,7 @@ public class NMSHandler implements NMSAbstraction {
                 }
             }
             //Bukkit.getLogger().info("Lore: " + lore);
-            net.minecraft.server.v1_9_R1.ItemStack stack = CraftItemStack.asNMSCopy(chestItem); 
+            net.minecraft.server.v1_13_R2.ItemStack stack = CraftItemStack.asNMSCopy(chestItem); 
             // Pages
             NBTTagCompound tag = new NBTTagCompound(); //Create the NMS Stack's NBT (item data)
             tag.setString("title", title); //Set the book's title
@@ -129,18 +130,13 @@ public class NMSHandler implements NMSAbstraction {
 
     /* (non-Javadoc)
      * @see com.wasteofplastic.askyblock.nms.NMSAbstraction#setBlock(org.bukkit.block.Block, org.bukkit.inventory.ItemStack)
-     * Credis: Mister_Frans (THANK YOU VERY MUCH !)
      */
     @Override
-    public void setFlowerPotBlock(Block block, ItemStack itemStack) {
-        Location loc = block.getLocation();
-        CraftWorld cw = (CraftWorld)block.getWorld();
-        BlockPosition bp = new BlockPosition(loc.getX(), loc.getY(), loc.getZ());
-        TileEntityFlowerPot te = (TileEntityFlowerPot)cw.getHandle().getTileEntity(bp);
-        //Bukkit.getLogger().info("Debug: flowerpot materialdata = " + (new ItemStack(potItem, 1,(short) potItemData).toString()));
-        net.minecraft.server.v1_9_R1.ItemStack cis = CraftItemStack.asNMSCopy(itemStack);
-        te.a(cis.getItem(), cis.getData());
-        te.update();
+    public void setFlowerPotBlock(final Block block, final ItemStack itemStack) {
+        // Doesn't use NMS anymore, but ohwell. :shrug:
+        if (block.getType().name().startsWith("POTTED_") || block.getType().equals(Material.FLOWER_POT)) {
+            block.setType(Material.valueOf("POTTED_" + itemStack.getType().name()));
+        }
     }
 
     /* (non-Javadoc)
@@ -150,7 +146,7 @@ public class NMSHandler implements NMSAbstraction {
     public boolean isPotion(ItemStack item) {
         //Bukkit.getLogger().info("DEBUG:item = " + item);
         if (item.getType().equals(Material.POTION)) {
-            net.minecraft.server.v1_9_R1.ItemStack stack = CraftItemStack.asNMSCopy(item);
+            net.minecraft.server.v1_13_R2.ItemStack stack = CraftItemStack.asNMSCopy(item);
             NBTTagCompound tag = stack.getTag();
             //Bukkit.getLogger().info("DEBUG: tag is " + tag);
             //Bukkit.getLogger().info("DEBUG: display is " + tag.getString("display"));
@@ -179,7 +175,7 @@ public class NMSHandler implements NMSAbstraction {
                 if (stringTag != null) {
                     String tag = ((StringTag)contents.get("Potion")).getValue();
                     //Bukkit.getLogger().info("DEBUG: potioninfo found: " + tag);
-                    net.minecraft.server.v1_9_R1.ItemStack stack = CraftItemStack.asNMSCopy(chestItem);
+                    net.minecraft.server.v1_13_R2.ItemStack stack = CraftItemStack.asNMSCopy(chestItem);
                     NBTTagCompound tagCompound = stack.getTag();
                     if(tagCompound == null){
                         tagCompound = new NBTTagCompound();
@@ -203,18 +199,8 @@ public class NMSHandler implements NMSAbstraction {
      * @param amount
      * @return
      */
-    @SuppressWarnings("deprecation")
     public ItemStack getSpawnEgg(EntityType type, int amount) {
-        ItemStack item = new ItemStack(Material.valueOf("MONSTER_EGG"), amount);
-        net.minecraft.server.v1_9_R1.ItemStack stack = CraftItemStack.asNMSCopy(item);
-        NBTTagCompound tagCompound = stack.getTag();
-        if(tagCompound == null){
-            tagCompound = new NBTTagCompound();
-        }
-        NBTTagCompound id = new NBTTagCompound();
-        id.setString("id", type.getName());
-        tagCompound.set("EntityTag", id);
-        stack.setTag(tagCompound);
-        return CraftItemStack.asBukkitCopy(stack);
+        // Doesn't use NMS anymore, but ohwell. :shrug:
+        return new ItemStack(Material.valueOf(type.getName() + "_SPAWN_EGG"), amount);
     }
 }

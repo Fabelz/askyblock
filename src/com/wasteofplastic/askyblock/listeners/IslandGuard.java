@@ -2313,7 +2313,7 @@ public class IslandGuard implements Listener {
                             public void run() {
                                 if (e.getBlock().getType().equals(Material.FIRE)) {
                                     e.getBlock().setType(md.getItemType());
-                                    e.getBlock().setData(md.getData());
+                                    Util.setBlockData(e.getBlock(), md.getData());
                                 }
 
                             }

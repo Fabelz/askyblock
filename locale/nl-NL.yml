@@ -240,7 +240,7 @@ error:
   notOnIsland: "Je zit in in een eiland ruimte!"
   offlinePlayer: "Die speler is offline of bestaat niet."
   tooLong: "Te lang. De maximale groote is [length]."
-  tooShort: ""Te kort. De minimale groote is [length]."
+  tooShort: "Te kort. De minimale groote is [length]."
   unknownCommand: "Verkeerd commando."
   unknownPlayer: "Die speler kennen we niet."
   useInGame: "Dit commando kan je alleen in-game gebruiken."

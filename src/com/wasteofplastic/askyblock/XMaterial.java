@@ -425,7 +425,7 @@ public enum XMaterial {
     GRANITE_SLAB(0),
     GRANITE_STAIRS(0),
     GRANITE_WALL(0),
-    GRASS(0),
+    GRASS(0, "LONG_GRASS"),
     GRASS_BLOCK(0, "GRASS"),
     GRASS_PATH(0),
     GRAVEL(0),
@@ -1209,6 +1209,19 @@ public enum XMaterial {
     }
 
     /**
+     * Gets the XMaterial based on the Material's ID.<br>
+     * You should avoid using this for performance reasons.
+     *
+     * @param id   the ID (Magic value) of the material.
+     * @return some XMaterial, or null.
+     */
+    @Nullable
+    public static XMaterial matchXMaterial(int id) {
+        // Looping through Material.values() will take longer.
+        return Arrays.stream(XMaterial.VALUES).filter(mat -> mat.getId() == id).findFirst().orElse(null);
+    }
+
+    /**
      * Gets the XMaterial based on the Material's ID and data.<br>
      * You should avoid using this for performance reasons.
      *
@@ -1283,7 +1296,7 @@ public enum XMaterial {
     @Nonnull
     private static String format(@Nonnull String name) {
         return StringUtils.replace(StringUtils.replace(name.toUpperCase(), "MINECRAFT:", ""), "-", "_").trim()
-                .replaceAll("\\s+", "_").replaceAll("\\d+", "").replaceAll("\\W+", "");
+                .replaceAll("\\s+", "_").replaceAll("\\W+", "");
     }
 
     /**

@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import com.wasteofplastic.askyblock.generators.ChunkGeneratorWorld1_13;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -159,7 +160,7 @@ public class ASkyBlock extends JavaPlugin {
                 islandWorld = Bukkit.getServer().getWorld(Settings.worldName);
                 //Bukkit.getLogger().info("DEBUG world is " + islandWorld);
             } else {
-                islandWorld = WorldCreator.name(Settings.worldName).type(WorldType.FLAT).environment(World.Environment.NORMAL).generator(new ChunkGeneratorWorld())
+                islandWorld = WorldCreator.name(Settings.worldName).type(WorldType.FLAT).environment(World.Environment.NORMAL).generator(plugin.isOnePointThirteen() ? new ChunkGeneratorWorld1_13() : new ChunkGeneratorWorld())
                         .createWorld();
             }
             // Make the nether if it does not exist
@@ -652,7 +653,7 @@ public class ASkyBlock extends JavaPlugin {
 
     @Override
     public ChunkGenerator getDefaultWorldGenerator(final String worldName, final String id) {
-        return new ChunkGeneratorWorld();
+        return plugin.isOnePointThirteen() ? new ChunkGeneratorWorld1_13() : new ChunkGeneratorWorld();
     }
 
     /**
@@ -863,7 +864,7 @@ public class ASkyBlock extends JavaPlugin {
             if (!Settings.newNether) {
                 netherWorld = WorldCreator.name(Settings.worldName + "_nether").type(WorldType.NORMAL).environment(World.Environment.NETHER).createWorld();
             } else {
-                netherWorld = WorldCreator.name(Settings.worldName + "_nether").type(WorldType.FLAT).generator(new ChunkGeneratorWorld())
+                netherWorld = WorldCreator.name(Settings.worldName + "_nether").type(WorldType.FLAT).generator(plugin.isOnePointThirteen() ? new ChunkGeneratorWorld1_13() : new ChunkGeneratorWorld())
                         .environment(World.Environment.NETHER).createWorld();
             }
             netherWorld.setMonsterSpawnLimit(Settings.monsterSpawnLimit);

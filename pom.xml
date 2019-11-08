@@ -107,11 +107,10 @@
 			<version>LATEST</version>
 		</dependency>
 		<dependency>
-			<groupId>com.sk89q</groupId>
-			<artifactId>worldguard</artifactId>
+			<groupId>com.sk89q.worldedit</groupId>
+			<artifactId>worldedit-bukkit</artifactId>
 			<version>LATEST</version>
 			<scope>provided</scope>
-			<type>jar</type>
 		</dependency>
 		<!-- These server binaries have to be provided by you and put in the server.jars 
 			folder You can build the latest versions using the BuildTools.jar tool from 
@@ -138,6 +137,27 @@
 			<scope>system</scope>
 			<systemPath>c:/users/${env.USERNAME}/IdeaProjects/Servers/spigot-1.9.4.jar</systemPath>
 			<version>1.9.4</version>
+		</dependency>
+		<dependency>
+			<groupId>spigotmc.org</groupId>
+			<artifactId>spigot-1.13</artifactId>
+			<scope>system</scope>
+			<systemPath>c:/users/${env.USERNAME}/IdeaProjects/Servers/spigot-1.13.jar</systemPath>
+			<version>1.13</version>
+		</dependency>
+		<dependency>
+			<groupId>spigotmc.org</groupId>
+			<artifactId>spigot-1.13.1</artifactId>
+			<scope>system</scope>
+			<systemPath>c:/users/${env.USERNAME}/IdeaProjects/Servers/spigot-1.13.1.jar</systemPath>
+			<version>1.13.1</version>
+		</dependency>
+		<dependency>
+			<groupId>spigotmc.org</groupId>
+			<artifactId>spigot-1.13.2</artifactId>
+			<scope>system</scope>
+			<systemPath>c:/users/${env.USERNAME}/IdeaProjects/Servers/spigot-1.13.2.jar</systemPath>
+			<version>1.13.2</version>
 		</dependency>
 		<dependency>
 			<groupId>spigotmc.org</groupId>

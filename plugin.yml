@@ -1,8 +1,10 @@
 name: ASkyBlock
 main: com.wasteofplastic.askyblock.ASkyBlock
+api-version: '1.13'
 version: ${version}
 description: A SkyBlock Plugin
 author: Tastybento
+softdepend: [WorldEdit, FastAsyncWorldEdit]
 depend: [Vault]
 load: startup
 loadbefore: [Multiverse-Core]

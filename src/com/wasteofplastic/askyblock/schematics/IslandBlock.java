@@ -52,7 +52,7 @@ import com.wasteofplastic.org.jnbt.StringTag;
 import com.wasteofplastic.org.jnbt.Tag;
 
 public class IslandBlock {
-    private short typeId;
+    private Material type;
     private byte data;
     private int x;
     private int y;
@@ -97,10 +97,11 @@ public class IslandBlock {
         if (!Bukkit.getServer().getVersion().contains("(MC: 1.7")) {
             WEtoME.put("ENDERCRYSTAL", EntityType.ENDER_CRYSTAL);
             WEtoME.put("ARMORSTAND", EntityType.ARMOR_STAND);
-        }
-        // 1.10 entities and materials
-        if (!Bukkit.getServer().getVersion().contains("(MC: 1.7") && !Bukkit.getServer().getVersion().contains("(MC: 1.8") && !Bukkit.getServer().getVersion().contains("(MC: 1.9")) {
-            WEtoME.put("POLARBEAR", EntityType.POLAR_BEAR);
+
+            // 1.10 entities and materials
+            if (!Bukkit.getServer().getVersion().contains("(MC: 1.8") && !Bukkit.getServer().getVersion().contains("(MC: 1.9")) {
+                WEtoME.put("POLARBEAR", EntityType.POLAR_BEAR);
+            }
         }
     }
 
@@ -122,14 +123,14 @@ public class IslandBlock {
     /**
      * @return the type
      */
-    public int getTypeId() {
-        return typeId;
+    public Material getType() {
+        return type;
     }
     /**
      * @param type the type to set
      */
-    public void setTypeId(short type) {
-        this.typeId = type;
+    public void setType(Material type) {
+        this.type = type;
     }
     /**
      * @return the data
@@ -161,8 +162,8 @@ public class IslandBlock {
      * @param s
      * @param b
      */
-    public void setBlock(int s, byte b) {
-        this.typeId = (short)s;
+    public void setBlock(Material s, byte b) {
+        this.type = s;
         this.data = b;
     }
 
@@ -440,10 +441,10 @@ public class IslandBlock {
         // Only paste air if it is below the sea level and in the overworld
         Block block = new Location(blockLoc.getWorld(), x, y, z).add(blockLoc).getBlock();
         block.setBiome(biome);
-        nms.setBlockSuperFast(block, typeId, data, usePhysics);
+        nms.setBlockSuperFast(block, type, data, usePhysics);
         if (signText != null) {
-            if (block.getType().getId() != typeId) {
-                block.setType(XMaterial.matchXMaterial(typeId, (byte) 0).parseMaterial());
+            if (block.getType() != type) {
+                block.setType(type);
             }
             // Sign
             Sign sign = (Sign) block.getState();
@@ -459,16 +460,16 @@ public class IslandBlock {
         } else if (pot != null){
             pot.set(nms, block);
         } else if (spawnerBlockType != null) {
-            if (block.getType().getId() != typeId) {
-                block.setType(XMaterial.matchXMaterial(typeId, (byte) 0).parseMaterial());
+            if (block.getType() != type) {
+                block.setType(type);
             }
             CreatureSpawner cs = (CreatureSpawner)block.getState();
             cs.setSpawnedType(spawnerBlockType);
             //Bukkit.getLogger().info("DEBUG: setting spawner");
             cs.update(true, false);
         } else if (!chestContents.isEmpty()) {
-            if (block.getType().getId() != typeId) {
-                block.setType(XMaterial.matchXMaterial(typeId, (byte) 0).parseMaterial());
+            if (block.getType() != type) {
+                block.setType(type);
             }
             //Bukkit.getLogger().info("DEBUG: inventory holder "+ block.getType());
             // Check if this is a double chest

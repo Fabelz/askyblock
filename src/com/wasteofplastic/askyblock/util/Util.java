@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -38,6 +39,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -66,6 +68,8 @@ public final class Util {
     private static boolean midSave = false;
     private static BukkitTask queueSaver;
     private static boolean midLoad = false;
+    private static Method dataSetMethod;
+    private static Method dataSetWithPhysicsMethod;
 
     /**
      * Loads a YAML file and if it does not exist it is looked for in the JAR
@@ -566,6 +570,45 @@ public final class Util {
         }
         return player.getInventory().getItemInMainHand() != null && player.getInventory()
                 .getItemInOffHand().getType().equals(type);
+    }
+
+    /**
+     * Sets the data of a {@link org.bukkit.block.Block}.
+     * @param block
+     * @param byte
+     */
+    public static void setBlockData(Block block, Byte data) {
+        if (!plugin.isOnePointThirteen()) {
+            try {
+                if (dataSetMethod == null) {
+                    dataSetMethod = block.getClass().getMethod("setData", Byte.class);
+                }
+
+                dataSetMethod.invoke(block, data);
+            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
+                ex.printStackTrace(); // Should never happen, but y'know.
+            }
+        }
+    }
+
+    /**
+     * Sets the data of a {@link org.bukkit.block.Block} with physics on/off.
+     * @param block
+     * @param data
+     * @param physics
+     */
+    public static void setBlockData(Block block, Byte data, boolean physics) {
+        if (!plugin.isOnePointThirteen()) {
+            try {
+                if (dataSetWithPhysicsMethod == null) {
+                    dataSetWithPhysicsMethod = block.getClass().getMethod("setData", Byte.class, Boolean.class);
+                }
+
+                dataSetWithPhysicsMethod.invoke(block, data, physics);
+            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException ex) {
+                ex.printStackTrace(); // Should never happen, but y'know.
+            }
+        }
     }
 
     public static void runCommand(final Player player, final String string) {

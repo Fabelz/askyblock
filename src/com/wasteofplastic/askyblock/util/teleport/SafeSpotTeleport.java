@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.wasteofplastic.askyblock.XMaterial;
 import org.bukkit.ChunkSnapshot;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
@@ -122,8 +123,6 @@ public class SafeSpotTeleport {
 
     /**
      * Gets a set of chunk coords that will be scanned.
-     * @param entity
-     * @param location
      * @return
      */
     private List<Pair<Integer, Integer>> getChunksToScan() {
@@ -252,47 +251,115 @@ public class SafeSpotTeleport {
     @SuppressWarnings("deprecation")
     private boolean checkBlock(ChunkSnapshot chunk, int x, int y, int z, int worldHeight) {
         World world = location.getWorld();
-        Material type = Material.getMaterial(chunk.getBlockTypeId(x, y, z));
+        Material type = chunk.getBlockType(x, y, z);
         if (!type.equals(Material.AIR)) { // AIR
-            Material space1 = Material.getMaterial(chunk.getBlockTypeId(x, Math.min(y + 1, worldHeight), z));
-            Material space2 = Material.getMaterial(chunk.getBlockTypeId(x, Math.min(y + 2, worldHeight), z));
-            if ((space1.equals(Material.AIR) && space2.equals(Material.AIR)) || (space1.equals(Material.PORTAL) && space2.equals(Material.PORTAL))
+            Material space1 = chunk.getBlockType(x, Math.min(y + 1, worldHeight), z);
+            Material space2 = chunk.getBlockType(x, Math.min(y + 2, worldHeight), z);
+            if ((space1.equals(Material.AIR) && space2.equals(Material.AIR)) || (space1.equals(XMaterial.NETHER_PORTAL.parseMaterial()) && space2.equals(XMaterial.NETHER_PORTAL.parseMaterial()))
                     && (!type.toString().contains("FENCE") && !type.toString().contains("DOOR") && !type.toString().contains("GATE") && !type.toString().contains("PLATE"))) {
-                switch (type) {
+                switch (type.name()) {
                 // Unsafe
-                case ANVIL:
-                case BARRIER:
-                case BOAT:
-                case CACTUS:
-                case DOUBLE_PLANT:
-                case ENDER_PORTAL:
-                case FIRE:
-                case FLOWER_POT:
-                case LADDER:
-                case LAVA:
-                case LEVER:
-                case LONG_GRASS:
-                case PISTON_EXTENSION:
-                case PISTON_MOVING_PIECE:
-                case SIGN_POST:
-                case SKULL:
-                case STANDING_BANNER:
-                case STATIONARY_LAVA:
-                case STATIONARY_WATER:
-                case STONE_BUTTON:
-                case TORCH:
-                case TRIPWIRE:
-                case WATER:
-                case WEB:
-                case WOOD_BUTTON:
-                    //Block is dangerous
-                    break;
-                case PORTAL:
-                    if (portal) {
-                        // A portal has been found, switch to non-portal mode now
-                        portal = false;
-                    }
-                    break;
+                case "ACACIA_BOAT":
+                case "ACACIA_BUTTON":
+                case "ANVIL":
+                case "BARRIER":
+                case "BIRCH_BOAT":
+                case "BIRCH_BUTTON":
+                case "BLACK_BANNER":
+                case "BLACK_WALL_BANNER":
+                case "BLUE_BANNER":
+                case "BLUE_WALL_BANNER":
+                case "BOAT":
+                case "BROWN_BANNER":
+                case "BROWN_WALL_BANNER":
+                case "CACTUS":
+                case "COBWEB":
+                case "CREEPER_HEAD":
+                case "CREEPER_WALL_HEAD":
+                case "CYAN_BANNER":
+                case "CYAN_WALL_BANNER":
+                case "DARK_OAK_BOAT":
+                case "DARK_OAK_BUTTON":
+                case "DOUBLE_PLANT":
+                case "DRAGON_HEAD":
+                case "DRAGON_WALL_HEAD":
+                case "ENDER_PORTAL":
+                case "END_PORTAL":
+                case "FIRE":
+                case "FLOWER_POT":
+                case "GRAY_BANNER":
+                case "GRAY_WALL_BANNER":
+                case "GREEN_BANNER":
+                case "GREEN_WALL_BANNER":
+                case "JUNGLE_BOAT":
+                case "JUNGLE_BUTTON":
+                case "LADDER":
+                case "LAVA":
+                case "LEVER":
+                case "LIGHT_BLUE_BANNER":
+                case "LIGHT_BLUE_WALL_BANNER":
+                case "LIGHT_GRAY_BANNER":
+                case "LIGHT_GRAY_WALL_BANNER":
+                case "LILAC":
+                case "LIME_BANNER":
+                case "LIME_WALL_BANNER":
+                case "LONG_GRASS":
+                case "MAGENTA_BANNER":
+                case "MAGENTA_WALL_BANNER":
+                case "MOVING_PISTON":
+                case "OAK_BOAT":
+                case "OAK_BUTTON":
+                case "ORANGE_BANNER":
+                case "ORANGE_WALL_BANNER":
+                case "PEONY":
+                case "PINK_BANNER":
+                case "PINK_WALL_BANNER":
+                case "PISTON_EXTENSION":
+                case "PISTON_HEAD":
+                case "PISTON_MOVING_PIECE":
+                case "PLAYER_HEAD":
+                case "PLAYER_WALL_HEAD":
+                case "PURPLE_BANNER":
+                case "PURPLE_WALL_BANNER":
+                case "RED_BANNER":
+                case "RED_WALL_BANNER":
+                case "ROSE_BUSH":
+                case "SIGN":
+                case "SIGN_POST":
+                case "SKELETON_SKULL":
+                case "SKELETON_WALL_SKULL":
+                case "SKULL":
+                case "SPRUCE_BOAT":
+                case "SPRUCE_BUTTON":
+                case "STANDING_BANNER":
+                case "STATIONARY_LAVA":
+                case "STATIONARY_WATER":
+                case "STONE_BUTTON":
+                case "SUNFLOWER":
+                case "TALL_GRASS":
+                case "TORCH":
+                case "TRIPWIRE":
+                case "WALL_SIGN":
+                case "WATER":
+                case "WEB":
+                case "WHITE_BANNER":
+                case "WHITE_WALL_BANNER":
+                case "WITHER_SKELETON_SKULL":
+                case "WITHER_SKELETON_WALL_SKULL":
+                case "WOOD_BUTTON":
+                case "YELLOW_BANNER":
+                case "YELLOW_WALL_BANNER":
+                case "ZOMBIE_HEAD":
+                case "ZOMBIE_WALL_HEAD":
+                //Block is dangerous
+                break;
+                case "NETHER_PORTAL":
+                case "PORTAL":
+                if (portal) {
+                    // A portal has been found, switch to non-portal mode now
+                    portal = false;
+                }
+                break;
                 default:
                     return safe(chunk, x, y, z, world);
                 }

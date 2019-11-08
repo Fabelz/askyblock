@@ -20,6 +20,7 @@ package com.wasteofplastic.askyblock.schematics;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.wasteofplastic.askyblock.ASkyBlock;
 import com.wasteofplastic.askyblock.XMaterial;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -54,8 +55,14 @@ public class PotBlock {
         potItemList.put("minecraft:red_mushroom", Material.RED_MUSHROOM);
         potItemList.put("minecraft:brown_mushroom", Material.BROWN_MUSHROOM);
         potItemList.put("minecraft:cactus", Material.CACTUS);
-        potItemList.put("minecraft:deadbush", Material.valueOf("LONG_GRASS"));
-        potItemList.put("minecraft:tallgrass", Material.valueOf("LONG_GRASS"));
+
+        if (!ASkyBlock.getPlugin().isOnePointThirteen()) {
+            potItemList.put("minecraft:deadbush", Material.valueOf("LONG_GRASS"));
+            potItemList.put("minecraft:tallgrass", Material.valueOf("LONG_GRASS"));
+        } else {
+            potItemList.put("minecraft:dead_bush", Material.DEAD_BUSH);
+            potItemList.put("minecraft:fern", Material.FERN);
+        }
     }
 
     public boolean set(NMSAbstraction nms, Block block) {

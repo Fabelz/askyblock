@@ -19,6 +19,8 @@ package com.wasteofplastic.askyblock.nms.fallback;
 
 import java.util.Map;
 
+import com.wasteofplastic.askyblock.XMaterial;
+import com.wasteofplastic.askyblock.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -45,7 +47,14 @@ public class NMSHandler implements NMSAbstraction {
     @SuppressWarnings("deprecation")
     @Override
     public void setBlockSuperFast(Block b, int blockId, byte data, boolean applyPhysics) {
-        b.setTypeIdAndData(blockId, data, applyPhysics);
+        b.setType(XMaterial.matchXMaterial(blockId, (byte) 0).parseMaterial(), applyPhysics);
+        Util.setBlockData(b, data, applyPhysics);
+    }
+
+    @Override
+    public void setBlockSuperFast(Block b, Material type, byte data, boolean applyPhysics) {
+        b.setType(type, applyPhysics);
+        Util.setBlockData(b, data, applyPhysics);
     }
 
     @Override
@@ -57,7 +66,8 @@ public class NMSHandler implements NMSAbstraction {
     @SuppressWarnings("deprecation")
     @Override
     public void setFlowerPotBlock(Block block, ItemStack itemStack) {
-        block.setTypeIdAndData(itemStack.getTypeId(), itemStack.getData().getData(), false);
+        block.setType(XMaterial.matchXMaterial(itemStack.getType().getId(), itemStack.getData().getData()).parseMaterial(), false);
+        Util.setBlockData(block, itemStack.getData().getData(), false);
 
     }
 

@@ -62,6 +62,20 @@ public class NMSHandler implements NMSAbstraction {
     }
 
     @Override
+    public void setBlockSuperFast(Block b, Material type, byte data, boolean applyPhysics) {
+        net.minecraft.server.v1_10_R1.World w = ((CraftWorld) b.getWorld()).getHandle();
+        net.minecraft.server.v1_10_R1.Chunk chunk = w.getChunkAt(b.getX() >> 4, b.getZ() >> 4);
+        BlockPosition bp = new BlockPosition(b.getX(), b.getY(), b.getZ());
+        IBlockData ibd = net.minecraft.server.v1_10_R1.Block.getByName(type.name()).getBlockData();
+        if (applyPhysics) {
+            w.setTypeAndData(bp, ibd, 3);
+        } else {
+            w.setTypeAndData(bp, ibd, 2);
+        }
+        chunk.a(bp, ibd);
+    }
+
+    @Override
     public ItemStack setBook(Tag item) {
         ItemStack chestItem = new ItemStack(Material.WRITTEN_BOOK);
         //Bukkit.getLogger().info("item data");
@@ -191,7 +205,7 @@ public class NMSHandler implements NMSAbstraction {
      */
     @SuppressWarnings("deprecation")
     public ItemStack getSpawnEgg(EntityType type, int amount) {
-        ItemStack item = new ItemStack(Material.MONSTER_EGG, amount);
+        ItemStack item = new ItemStack(Material.valueOf("MONSTER_EGG"), amount);
         net.minecraft.server.v1_10_R1.ItemStack stack = CraftItemStack.asNMSCopy(item);
         NBTTagCompound tagCompound = stack.getTag();
         if(tagCompound == null){
