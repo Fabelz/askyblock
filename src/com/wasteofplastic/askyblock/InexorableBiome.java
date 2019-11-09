@@ -10,7 +10,10 @@ Created by Fabelz.
 Last updated for: 1.14.3
  */
 
+import org.bukkit.Bukkit;
 import org.bukkit.block.Biome;
+
+import java.util.Arrays;
 
 public enum InexorableBiome {
     OCEAN,
@@ -93,6 +96,15 @@ public enum InexorableBiome {
 
     InexorableBiome(String... previousNames) {
         this.previousNames = previousNames;
+    }
+
+    /**
+     * Parses the String as a {@link InexorableBiome}.
+     *
+     * @return the inexorablebiome. Null if it doesn't exist.
+     */
+    public static InexorableBiome parseInexorableBiome(String biomeName) {
+        return Arrays.stream(InexorableBiome.values()).filter(inexorableBiome -> inexorableBiome.name().equals(biomeName) || Arrays.asList(inexorableBiome.previousNames).contains(biomeName)).findFirst().orElse(null);
     }
 
     /**

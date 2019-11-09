@@ -961,7 +961,7 @@ public class GridManager {
         }
         // If ground is AIR, then this is either not good, or they are on slab,
         // stair, etc.
-        if (ground.getType() == Material.AIR) {
+        if (ground.getType() == Material.AIR || ground.getType() == XMaterial.CAVE_AIR.parseMaterial() || ground.getType() == XMaterial.VOID_AIR.parseMaterial()) {
             // Bukkit.getLogger().info("DEBUG: air");
             return false;
         }
@@ -1220,6 +1220,7 @@ public class GridManager {
         if (home == null) {
             //plugin.getLogger().info("Fixing home location using safe spot teleport");
             // Try to fix this teleport location and teleport the player if possible
+            Bukkit.getLogger().info("safe teleport to island: " + player.getName() + ": " + plugin.getPlayers().getHomeLocation(player.getUniqueId(), number));
             new SafeTeleportBuilder(plugin)
             .entity(player)
             .location(plugin.getPlayers().getHomeLocation(player.getUniqueId(), number))

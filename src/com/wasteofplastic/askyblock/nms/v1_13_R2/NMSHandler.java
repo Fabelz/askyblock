@@ -32,6 +32,8 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,11 +42,16 @@ import java.util.Map;
 public class NMSHandler implements NMSAbstraction {
 
     private static HashMap<EntityType, String> bToMConversion;
+    private Method setTypeMethod;
 
     static {
         bToMConversion = new HashMap<EntityType, String> ();
         bToMConversion.put(EntityType.MUSHROOM_COW, "mooshroom");
         bToMConversion.put(EntityType.PIG_ZOMBIE, "zombie_pigman");
+    }
+
+    public NMSHandler() {
+
     }
 
     @Override
@@ -59,7 +66,7 @@ public class NMSHandler implements NMSAbstraction {
         } else {
             w.setTypeAndData(bp, ibd, 2); 
         }
-        chunk.a(bp, ibd, false);
+        setInChunk(chunk, bp, ibd);
     }
 
     @Override
@@ -73,7 +80,7 @@ public class NMSHandler implements NMSAbstraction {
         } else {
             w.setTypeAndData(bp, ibd, 2);
         }
-        chunk.a(bp, ibd, false);
+        setInChunk(chunk, bp, ibd);
     }
 
     @Override
@@ -202,5 +209,29 @@ public class NMSHandler implements NMSAbstraction {
     public ItemStack getSpawnEgg(EntityType type, int amount) {
         // Doesn't use NMS anymore, but ohwell. :shrug:
         return new ItemStack(Material.valueOf(type.getName() + "_SPAWN_EGG"), amount);
+    }
+
+    private void setInChunk(Chunk chunk, BlockPosition bp, IBlockData ibd) {
+        if (setTypeMethod != null) { // Having to use reflection for this sucks, but they remapped the names while using the same revision.
+            try {
+                setTypeMethod = Chunk.class.getMethod("a", BlockPosition.class, IBlockData.class, boolean.class);
+            } catch (NoSuchMethodException e) {
+                try {
+                    setTypeMethod = Chunk.class.getMethod("setType", BlockPosition.class, IBlockData.class, boolean.class);
+                } catch (NoSuchMethodException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+
+        Bukkit.getLogger().info("method - " + setTypeMethod);
+
+        try {
+            if (setTypeMethod != null) {
+                setTypeMethod.invoke(chunk, bp, ibd, false);
+            }
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 }

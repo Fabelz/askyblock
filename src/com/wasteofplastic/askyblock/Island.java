@@ -351,7 +351,7 @@ public class Island {
             // Get the biome
             if (split.length > 9) {
                 try {
-                    biome = Biome.valueOf(split[9]);
+                    biome = InexorableBiome.parseInexorableBiome(split[9]).retrieveBiome();
 
                 } catch (IllegalArgumentException ee) {
                     // Unknown biome
@@ -461,7 +461,7 @@ public class Island {
      */
     public Island(Island island) {
         this.plugin = island.plugin;
-        this.biome = island.biome == null ? null : Biome.valueOf(island.biome.name());
+        this.biome = island.biome == null ? null : InexorableBiome.parseInexorableBiome(island.biome.name()).retrieveBiome();
         this.center = island.center != null ? island.center.clone() : null;
         this.createdDate = Long.valueOf(island.createdDate);
         island.igs.forEach((k,v) -> this.igs.put(k, v));

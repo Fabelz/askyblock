@@ -112,6 +112,13 @@
 			<version>LATEST</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.sk89q.worldedit</groupId>
+			<artifactId>worldedit-6.1.9</artifactId>
+			<scope>system</scope>
+			<systemPath>c:/users/${env.USERNAME}/IdeaProjects/Plugins/worldedit-bukkit-6.1.9.jar</systemPath>
+			<version>6.1.9</version>
+		</dependency>
 		<!-- These server binaries have to be provided by you and put in the server.jars 
 			folder You can build the latest versions using the BuildTools.jar tool from 
 			spigotmc.org. If you do not have or do not need a server version, delete 

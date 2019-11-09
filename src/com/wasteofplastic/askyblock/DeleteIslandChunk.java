@@ -120,17 +120,17 @@ public class DeleteIslandChunk {
                                         case "AIR":
                                         case "CAVE_AIR":
                                             if (setTo.equals(XMaterial.WATER.parseMaterial())) {
-                                                nms.setBlockSuperFast(block, setTo.getId(), (byte)0, false);
+                                                nms.setBlockSuperFast(block, setTo, (byte)0, false);
                                             }
                                             break;
                                         case "WATER":
                                         case "STATIONARY_WATER":
                                             if (setTo.equals(Material.AIR)) {
-                                                nms.setBlockSuperFast(block, setTo.getId(), (byte)0, false);
+                                                nms.setBlockSuperFast(block, setTo, (byte)0, false);
                                             }
                                             break;
                                         default:
-                                            nms.setBlockSuperFast(block, setTo.getId(), (byte)0, false);
+                                            nms.setBlockSuperFast(block, setTo, (byte)0, false);
                                             break;
                                         }
                                         // Nether, if it exists
@@ -152,7 +152,7 @@ public class DeleteIslandChunk {
                                                     block.setType(setTo);
                                                     break;
                                                 default:
-                                                    nms.setBlockSuperFast(block, setTo.getId(), (byte)0, false);
+                                                    nms.setBlockSuperFast(block, setTo, (byte)0, false);
                                                     break;
                                                 }
                                             }

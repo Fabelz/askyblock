@@ -31,7 +31,6 @@ import java.util.Set;
 
 import com.sk89q.worldedit.EditSession;
 import com.sk89q.worldedit.WorldEdit;
-import com.sk89q.worldedit.bukkit.BukkitAdapter;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.extent.clipboard.Clipboard;
 import com.sk89q.worldedit.extent.clipboard.io.ClipboardFormat;
@@ -54,9 +53,6 @@ import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
-import org.bukkit.block.Chest;
-import org.bukkit.block.DoubleChest;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -81,7 +77,6 @@ import org.bukkit.util.Vector;
 
 import com.wasteofplastic.askyblock.ASkyBlock;
 import com.wasteofplastic.askyblock.Settings;
-import com.wasteofplastic.askyblock.Settings.GameType;
 import com.wasteofplastic.askyblock.commands.IslandCmd;
 import com.wasteofplastic.askyblock.nms.NMSAbstraction;
 import com.wasteofplastic.askyblock.util.Util;
@@ -770,12 +765,12 @@ public class Schematic {
 
 
     public void pasteSchematic(final Location loc, final Player player, boolean teleport, final PasteReason reason)  {
+        EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(new BukkitWorld(loc.getWorld()), -1);
         if (!plugin.isOnePointThirteen()) {
             com.sk89q.worldedit.Vector WEorigin = new com.sk89q.worldedit.Vector(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ());
-            EditSession es = new EditSession(new BukkitWorld(loc.getWorld()), 999999999);
             try {
                 com.sk89q.worldedit.CuboidClipboard cc = com.sk89q.worldedit.CuboidClipboard.loadSchematic(file);
-                cc.paste(es, WEorigin, false);
+                cc.paste(editSession, WEorigin, false);
                 cc.pasteEntities(WEorigin);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -785,7 +780,6 @@ public class Schematic {
                 ClipboardFormat format = ClipboardFormats.findByFile(file);
                 try (ClipboardReader reader = format.getReader(new FileInputStream(file))) {
                     Clipboard clipboard = reader.read();
-                    EditSession editSession = WorldEdit.getInstance().getEditSessionFactory().getEditSession(new BukkitWorld(loc.getWorld()), -1);
                     Operation operation = new ClipboardHolder(clipboard)
                             .createPaste(editSession)
                             .to(BlockVector3.at(loc.getBlockX(), loc.getBlockY(), loc.getBlockZ()))

@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import com.wasteofplastic.askyblock.XMaterial;
+import com.wasteofplastic.askyblock.*;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -36,9 +36,6 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 
-import com.wasteofplastic.askyblock.ASkyBlock;
-import com.wasteofplastic.askyblock.Island;
-import com.wasteofplastic.askyblock.Settings;
 import com.wasteofplastic.askyblock.util.Util;
 import com.wasteofplastic.askyblock.util.VaultHelper;
 
@@ -67,7 +64,7 @@ public class BiomesPanel implements Listener {
         for (String biomeName : plugin.getConfig().getConfigurationSection("biomes").getKeys(false)) {
             // Check the biome is actually real
             try {
-                Biome biome = Biome.valueOf(biomeName);
+                Biome biome = InexorableBiome.parseInexorableBiome(biomeName).retrieveBiome();
                 // Check permission
                 String permission = plugin.getConfig().getString("biomes." + biomeName + ".permission", "");
                 if (permission.isEmpty() || VaultHelper.permission.has(player, permission)) {

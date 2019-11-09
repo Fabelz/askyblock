@@ -329,7 +329,7 @@ public class IslandCmd implements CommandExecutor, TabCompleter {
                         String biomeString = schemSection.getString("schematics." + key + ".biome",Settings.defaultBiome.toString());
                         Biome biome = null;
                         try {
-                            biome = Biome.valueOf(biomeString);
+                            biome = InexorableBiome.parseInexorableBiome(biomeString).retrieveBiome();
                             newSchem.setBiome(biome);
                         } catch (Exception e) {
                             plugin.getLogger().severe("Could not parse biome " + biomeString + " using default instead.");

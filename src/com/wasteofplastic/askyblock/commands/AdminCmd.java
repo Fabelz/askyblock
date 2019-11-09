@@ -1923,7 +1923,7 @@ public class AdminCmd implements CommandExecutor, TabCompleter {
                 Biome biome = null;
                 String biomeName = split[2].toUpperCase();
                 try {
-                    biome = Biome.valueOf(biomeName);
+                    biome = InexorableBiome.parseInexorableBiome(biomeName).retrieveBiome();
                     biomeName = biome.name();
                     if (!plugin.getConfig().contains("biomes." + biomeName)) {
                         Util.sendMessage(sender, ChatColor.RED + plugin.myLocale().biomeUnknown);

@@ -852,7 +852,7 @@ public class PluginConfig {
         }
         String defaultBiome = plugin.getConfig().getString("biomesettings.defaultbiome", "PLAINS");
         try {
-            Settings.defaultBiome = Biome.valueOf(defaultBiome);
+            Settings.defaultBiome = InexorableBiome.parseInexorableBiome(defaultBiome).retrieveBiome();
         } catch (Exception e) {
             plugin.getLogger().severe("Could not parse biome " + defaultBiome + " using PLAINS instead.");
             Settings.defaultBiome = Biome.PLAINS;

@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.wasteofplastic.askyblock.XMaterial;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -172,7 +173,7 @@ public class ControlPanel implements Listener {
                             String m = buttons.getString(item + ".material", "BOOK");
                             // Split off damage
                             String[] icon = m.split(":");
-                            Material material = Material.matchMaterial(icon[0]);
+                            Material material = XMaterial.matchXMaterial(icon[0], (byte) 0).parseMaterial();
                             if (material == null) {
                                 material = Material.PAPER;
                                 plugin.getLogger().severe("Error in controlpanel.yml " + icon[0] + " is an unknown material, using paper.");
