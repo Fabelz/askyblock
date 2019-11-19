@@ -989,7 +989,7 @@ public class GridManager {
             //Bukkit.getLogger().info("DEBUG: trapdoor closed");
         }
         if (ground.getType().equals(Material.CACTUS) || ground.getType().equals(XMaterial.OAK_BOAT.parseMaterial()) || ground.getType().equals(XMaterial.OAK_FENCE.parseMaterial())
-                || ground.getType().equals(XMaterial.NETHER_BRICK_FENCE.parseMaterial()) || ground.getType().equals(XMaterial.OAK_WALL_SIGN.parseMaterial()) || ground.getType().equals(Material.WALL_SIGN)) {
+                || ground.getType().equals(XMaterial.NETHER_BRICK_FENCE.parseMaterial()) || ground.getType().equals(Material.SIGN) || ground.getType().equals(Material.WALL_SIGN)) {
             // Bukkit.getLogger().info("DEBUG: cactus");
             return false;
         }
@@ -998,10 +998,10 @@ public class GridManager {
         // check
         // a few other items
         // isSolid thinks that PLATEs and SIGNS are solid, but they are not
-        if (space1.getType().isSolid() && !space1.getType().equals(XMaterial.OAK_WALL_SIGN.parseMaterial()) && !space1.getType().equals(Material.WALL_SIGN)) {
+        if (space1.getType().isSolid() && !space1.getType().equals(Material.SIGN) && !space1.getType().equals(Material.WALL_SIGN)) {
             return false;
         }
-        return !space2.getType().isSolid() || space2.getType().equals(XMaterial.OAK_WALL_SIGN.parseMaterial()) || space2
+        return !space2.getType().isSolid() || space2.getType().equals(Material.SIGN) || space2
                 .getType().equals(Material.WALL_SIGN);
     }
 

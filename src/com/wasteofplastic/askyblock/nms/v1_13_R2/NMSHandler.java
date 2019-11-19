@@ -212,25 +212,12 @@ public class NMSHandler implements NMSAbstraction {
     }
 
     private void setInChunk(Chunk chunk, BlockPosition bp, IBlockData ibd) {
-        if (setTypeMethod != null) { // Having to use reflection for this sucks, but they remapped the names while using the same revision.
-            try {
-                setTypeMethod = Chunk.class.getMethod("a", BlockPosition.class, IBlockData.class, boolean.class);
-            } catch (NoSuchMethodException e) {
-                try {
-                    setTypeMethod = Chunk.class.getMethod("setType", BlockPosition.class, IBlockData.class, boolean.class);
-                } catch (NoSuchMethodException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        }
-
-        Bukkit.getLogger().info("method - " + setTypeMethod);
-
         try {
-            if (setTypeMethod != null) {
-                setTypeMethod.invoke(chunk, bp, ibd, false);
+            if (setTypeMethod == null) { // Having to use reflection for this sucks, but they remapped the name of the method while using the same revision.
+                setTypeMethod = Chunk.class.getDeclaredMethod(Bukkit.getServer().getVersion().contains("1.13.1") ? "a" : "setType", BlockPosition.class, IBlockData.class, boolean.class, boolean.class);
             }
-        } catch (IllegalAccessException | InvocationTargetException e) {
+            setTypeMethod.invoke(chunk, bp, ibd, false, true);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
             e.printStackTrace();
         }
     }

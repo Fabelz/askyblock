@@ -788,8 +788,6 @@ public class PluginConfig {
         Settings.levelLogging = plugin.getConfig().getBoolean("general.levellogging");
         // Custom generator
         Settings.useOwnGenerator = plugin.getConfig().getBoolean("general.useowngenerator", false);
-        // Use physics when pasting island block schematics
-        Settings.usePhysics = plugin.getConfig().getBoolean("general.usephysics", false);
         // Legacy setting support for hopper limiting
         if (Settings.limitedBlocks.isEmpty()) {
             Settings.hopperLimit = plugin.getConfig().getInt("general.hopperlimit", -1);

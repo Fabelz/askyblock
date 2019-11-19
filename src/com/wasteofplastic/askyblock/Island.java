@@ -899,8 +899,8 @@ public class Island {
                             if (holder.getType().toString().endsWith("BANNER")) {
                                 result++;
                             }
-                        } else if (material.equals(Material.WALL_SIGN) || material.equals(XMaterial.OAK_WALL_SIGN.parseMaterial())) {
-                            if (holder.getType().equals(Material.WALL_SIGN) || holder.getType().equals(XMaterial.OAK_WALL_SIGN.parseMaterial())) {
+                        } else if (material.equals(Material.WALL_SIGN) || material.equals(Material.SIGN)) {
+                            if (holder.getType().equals(Material.WALL_SIGN) || holder.getType().equals(Material.SIGN)) {
                                 result++;
                             }
                         }

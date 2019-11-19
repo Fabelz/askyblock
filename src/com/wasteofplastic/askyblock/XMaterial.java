@@ -1218,7 +1218,7 @@ public enum XMaterial {
     @Nullable
     public static XMaterial matchXMaterial(int id) {
         // Looping through Material.values() will take longer.
-        return Arrays.stream(XMaterial.VALUES).filter(mat -> mat.getId() == id).findFirst().orElse(null);
+        return Arrays.stream(XMaterial.VALUES).filter(mat -> mat.parseMaterial() != null && mat.getId() == id).findFirst().orElse(null);
     }
 
     /**
@@ -1232,7 +1232,7 @@ public enum XMaterial {
     @Nullable
     public static XMaterial matchXMaterial(int id, byte data) {
         // Looping through Material.values() will take longer.
-        return Arrays.stream(XMaterial.VALUES).filter(mat -> mat.getId() == id && mat.data == data).findFirst().orElse(null);
+        return Arrays.stream(XMaterial.VALUES).filter(mat -> mat.parseMaterial() != null && mat.getId() == id && mat.data == data).findFirst().orElse(null);
     }
 
     /**

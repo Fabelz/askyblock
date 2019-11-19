@@ -35,6 +35,7 @@ import java.util.UUID;
 
 import com.wasteofplastic.askyblock.*;
 import com.wasteofplastic.askyblock.events.*;
+import com.wasteofplastic.askyblock.schematics.Schematic1_13;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Bukkit;
@@ -150,7 +151,7 @@ public class IslandCmd implements CommandExecutor, TabCompleter {
                 plugin.saveResource("schematics/island.schematic", false);
                 // Add it to schematics
                 try {
-                    schematics.put("default",new Schematic(plugin, schematicFile));
+                    schematics.put("default",plugin.isOnePointThirteen() ? new Schematic1_13(plugin, schematicFile) : new Schematic(plugin, schematicFile));
                 } catch (IOException e) {
                     plugin.getLogger().severe("Could not load default schematic!");
                     e.printStackTrace();
@@ -159,13 +160,13 @@ public class IslandCmd implements CommandExecutor, TabCompleter {
             } else {
                 // No islands.schematic in the jar, so just make the default using
                 // built-in island generation
-                schematics.put("default",new Schematic(plugin));
+                schematics.put("default",plugin.isOnePointThirteen() ? new Schematic1_13(plugin) : new Schematic(plugin));
             }
             plugin.getLogger().info("Loaded default nether schematic");
         } else {
             // It exists, so load it
             try {
-                schematics.put("default",new Schematic(plugin, schematicFile));
+                schematics.put("default",plugin.isOnePointThirteen() ? new Schematic1_13(plugin, schematicFile) : new Schematic(plugin, schematicFile));
                 plugin.getLogger().info("Loaded default island schematic.");
             } catch (IOException e) {
                 plugin.getLogger().severe("Could not load default schematic!");
@@ -179,7 +180,7 @@ public class IslandCmd implements CommandExecutor, TabCompleter {
 
                 // Add it to schematics
                 try {
-                    Schematic netherIsland = new Schematic(plugin, netherFile);
+                    Schematic netherIsland = plugin.isOnePointThirteen() ? new Schematic1_13(plugin, netherFile) : new Schematic(plugin, netherFile);
                     netherIsland.setVisible(false);
                     schematics.put("nether", netherIsland);
                     plugin.getLogger().info("Loaded default nether schematic.");
@@ -193,7 +194,7 @@ public class IslandCmd implements CommandExecutor, TabCompleter {
         } else {
             // It exists, so load it
             try {
-                Schematic netherIsland = new Schematic(plugin, netherFile);
+                Schematic netherIsland = plugin.isOnePointThirteen() ? new Schematic1_13(plugin, netherFile) : new Schematic(plugin, netherFile);
                 netherIsland.setVisible(false);
                 schematics.put("nether", netherIsland);
                 plugin.getLogger().info("Loaded default nether schematic.");
@@ -249,10 +250,10 @@ public class IslandCmd implements CommandExecutor, TabCompleter {
                         schematicFile = new File(schematicFolder, filename);
                         // See if the file exists
                         if (schematicFile.exists()) {
-                            newSchem = new Schematic(plugin, schematicFile);
+                            newSchem = plugin.isOnePointThirteen() ? new Schematic1_13(plugin, schematicFile) : new Schematic(plugin, schematicFile);
                         } else if (plugin.getResource("schematics/"+filename) != null) {
                             plugin.saveResource("schematics/"+filename, false);
-                            newSchem = new Schematic(plugin, schematicFile);
+                            newSchem = plugin.isOnePointThirteen() ? new Schematic1_13(plugin, schematicFile) : new Schematic(plugin, schematicFile);
                         }
                     } else {
                         //plugin.getLogger().info("DEBUG: filename is empty");
@@ -335,7 +336,7 @@ public class IslandCmd implements CommandExecutor, TabCompleter {
                             plugin.getLogger().severe("Could not parse biome " + biomeString + " using default instead.");
                         }
                         // Use physics - overrides default if it exists
-                        newSchem.setUsePhysics(schemSection.getBoolean("schematics." + key + ".usephysics",Settings.usePhysics));
+                        newSchem.setFinishTickChecks(schemSection.getInt("schematics." + key + ".finishTickChecks", 40));
                         // Paste Entities or not
                         newSchem.setPasteEntities(schemSection.getBoolean("schematics." + key + ".pasteentities",false));
                         // Paste air or not.

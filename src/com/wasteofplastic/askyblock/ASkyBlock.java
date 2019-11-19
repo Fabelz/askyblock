@@ -114,6 +114,8 @@ public class ASkyBlock extends JavaPlugin {
     private boolean onePointEight;
     // V1.13 or later
     private boolean onePointThirteen;
+    // Is FAWE on?
+    private boolean fastAsyncWorldEditEnabled;
 
     // Update object
     private Updater updateCheck = null;
@@ -292,7 +294,6 @@ public class ASkyBlock extends JavaPlugin {
             onePointEight = true;
         }
 
-        clazz = null;
         try {
             clazz = Class.forName("org.bukkit.event.player.PlayerRiptideEvent");
         } catch (Exception e) {
@@ -301,6 +302,16 @@ public class ASkyBlock extends JavaPlugin {
         }
         if (clazz != null) {
             onePointThirteen = true;
+        }
+
+        try {
+            clazz = Class.forName("com.boydti.fawe.Fawe");
+        } catch (Exception e) {
+            //getLogger().info("No PlayerRiptideEvent found.");
+            clazz = null;
+        }
+        if (clazz != null) {
+            fastAsyncWorldEditEnabled = true;
         }
 
         saveDefaultConfig();
@@ -953,9 +964,12 @@ public class ASkyBlock extends JavaPlugin {
     /**
      * @return the onePointThirteen
      */
-    public boolean isOnePointThirteen() {
-        return onePointThirteen;
-    }
+    public boolean isOnePointThirteen() { return onePointThirteen; }
+
+    /**
+     * @return the fastAsyncWorldEditEnabled
+     */
+    public boolean isFastAsyncWorldEditEnabled() { return fastAsyncWorldEditEnabled; }
 
     /**
      * @return the settingsPanel

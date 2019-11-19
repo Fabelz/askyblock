@@ -63,16 +63,7 @@ public class NMSHandler implements NMSAbstraction {
 
     @Override
     public void setBlockSuperFast(Block b, Material type, byte data, boolean applyPhysics) {
-        net.minecraft.server.v1_9_R1.World w = ((CraftWorld) b.getWorld()).getHandle();
-        net.minecraft.server.v1_9_R1.Chunk chunk = w.getChunkAt(b.getX() >> 4, b.getZ() >> 4);
-        BlockPosition bp = new BlockPosition(b.getX(), b.getY(), b.getZ());
-        IBlockData ibd = net.minecraft.server.v1_9_R1.Block.getByName(type.name()).getBlockData();
-        if (applyPhysics) {
-            w.setTypeAndData(bp, ibd, 3);
-        } else {
-            w.setTypeAndData(bp, ibd, 2);
-        }
-        chunk.a(bp, ibd);
+        setBlockSuperFast(b, type.getId(), data, applyPhysics);
     }
 
     @Override

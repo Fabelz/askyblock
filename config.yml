@@ -957,11 +957,12 @@ schematicsection:
   # biome - the biome this island should have. All pasted blocks will have this biome.
   # These next settings may cause lag if true. Default is false. Use judiciously.
   # pasteentities - if the schematic has entities in it (mobs) this will paste them.
-  # usephysics - if true, causes lava or water to flow after being pasted.
   # pasteair - Only set to true if you need to paste below sea level.
   # permission - the permission required to use this schematic. It can be anything you like
   # You can add or remove from this list. If this section is missing, only the default
   # island works.
+  # finishTickChecks - the amount of ticks that the server should check to see if a
+  # schematic has finished pasting yet or not. Only really works with FAWE installed.
   schematics:
     # default heading is required
     default:
@@ -1000,16 +1001,13 @@ schematicsection:
       # Schematics can include entities (mobs) in them and if pasteentities is true,
       # mobs will be pasted. 
       pasteentities: true
-      # Usephysics causes lava or water to flow after being pasted. Change to false
-      # if it lags
-      usephysics: true
       #Level handicap zeros the initial island level. 
       levelHandicap: 93
   
     # Additional heading names can be anything you like, but must be unique
     island1:
       # Credit to Antal1609 for this schematic!
-      icon: RED_ROSE
+      icon: POPPY
       order: 2
       name: "Island Duo"
       description: "Two close islands!|Double the fun,|but a little easier.|&a[Credit] Antal1609"
@@ -1062,8 +1060,6 @@ schematicsection:
       #chestItems:
       #- MELON:1
       #- ICE:1
-      # Schematics that require water or lava to hover can prevent physics when pasting
-      usephysics: false
       # Schematics may include entities (mobs) in them and if pasteentities is true,
       # mobs will be pasted.
       # Example: Setting this to true for this schematic will give a wolf.

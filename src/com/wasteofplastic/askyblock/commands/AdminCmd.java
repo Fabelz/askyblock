@@ -700,7 +700,7 @@ public class AdminCmd implements CommandExecutor, TabCompleter {
                         continue;
                     break;
                 }
-                if (lastBlock.getType() != XMaterial.OAK_WALL_SIGN.parseMaterial() && lastBlock.getType() != XMaterial.SPRUCE_WALL_SIGN.parseMaterial() && lastBlock.getType() != XMaterial.BIRCH_WALL_SIGN.parseMaterial() && lastBlock.getType() != XMaterial.JUNGLE_WALL_SIGN.parseMaterial() && lastBlock.getType() != XMaterial.ACACIA_WALL_SIGN.parseMaterial() &&  lastBlock.getType() != XMaterial.DARK_OAK_WALL_SIGN.parseMaterial()) {
+                if (lastBlock.getType() != Material.SIGN && lastBlock.getType() != XMaterial.SPRUCE_WALL_SIGN.parseMaterial() && lastBlock.getType() != XMaterial.BIRCH_WALL_SIGN.parseMaterial() && lastBlock.getType() != XMaterial.JUNGLE_WALL_SIGN.parseMaterial() && lastBlock.getType() != XMaterial.ACACIA_WALL_SIGN.parseMaterial() &&  lastBlock.getType() != XMaterial.DARK_OAK_WALL_SIGN.parseMaterial()) {
                     Util.sendMessage(sender, ChatColor.RED + plugin.myLocale(player.getUniqueId()).adminResetSignNoSign);
                     return true;
                 }
@@ -1087,7 +1087,7 @@ public class AdminCmd implements CommandExecutor, TabCompleter {
                         break;
                     }
                     // Check if it is a sign
-                    if (lastBlock.getType() != XMaterial.OAK_WALL_SIGN.parseMaterial() && lastBlock.getType() != XMaterial.SPRUCE_WALL_SIGN.parseMaterial() && lastBlock.getType() != XMaterial.BIRCH_WALL_SIGN.parseMaterial() && lastBlock.getType() != XMaterial.JUNGLE_WALL_SIGN.parseMaterial() && lastBlock.getType() != XMaterial.ACACIA_WALL_SIGN.parseMaterial() &&  lastBlock.getType() != XMaterial.DARK_OAK_WALL_SIGN.parseMaterial()) {
+                    if (lastBlock.getType() != Material.SIGN && lastBlock.getType() != XMaterial.SPRUCE_WALL_SIGN.parseMaterial() && lastBlock.getType() != XMaterial.BIRCH_WALL_SIGN.parseMaterial() && lastBlock.getType() != XMaterial.JUNGLE_WALL_SIGN.parseMaterial() && lastBlock.getType() != XMaterial.ACACIA_WALL_SIGN.parseMaterial() &&  lastBlock.getType() != XMaterial.DARK_OAK_WALL_SIGN.parseMaterial()) {
                         Util.sendMessage(sender, ChatColor.RED + plugin.myLocale(p.getUniqueId()).adminResetSignNoSign);
                         return true;
                     }
