@@ -867,12 +867,7 @@ public class Schematic {
             }
         }
         if (!islandCompanion.isEmpty()) {
-            Bukkit.getServer().getScheduler().runTaskLater(ASkyBlock.getPlugin(), new Runnable() {
-                @Override
-                public void run() {
-                    spawnCompanion(player, location);
-                }
-            }, 40L);
+            Bukkit.getServer().getScheduler().runTaskLater(ASkyBlock.getPlugin(), () -> spawnCompanion(player, location), 40L);
         }
     }
     /**
